@@ -1,5 +1,5 @@
 def save_call(args):
-    data = 'Rscript script_threads/run.r '
+    data = 'pthon3 ./main.py '
     data += '-F ' + str(args.input) + ' '
     data += '-A ' + str(args.width) + ' '
     data += '-B ' + str(args.height) + ' '

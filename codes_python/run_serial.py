@@ -6,8 +6,16 @@ import scipy.cluster.hierarchy as hcluster
 
 class Serial:
 
-    def __init__(self):
-        pass
+    def __init__(self, log_file=""):
+        self.log_file = log_file
+
+    def log(self,msg):
+
+        if self.log_file == "":
+            print(msg)
+        else:
+            with open(self.log_file, 'a') as lf:
+                print(msg, file=lf)
 
     def clear_statistics(self):
         self.started = 0

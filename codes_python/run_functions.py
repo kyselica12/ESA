@@ -1,7 +1,6 @@
-## TODO transform image  ???
 # def switch_X(F):
 #     return(apply(t(F[,ncol(F):1]),2,rev))
-
+# -> not neede in numpy axis are in good order already
 
 # remove negative values
 def remove_negative(v,val):

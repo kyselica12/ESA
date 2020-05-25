@@ -42,8 +42,8 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
     # define box pixel borders (four lines perpendicular to axes and passing through box four corners)
     box_top = floor(np.max(TL[1], TR[1], BL[1] ,BR[1]))   # first horizontal line from the top to cut the box
     box_bot = ceil(np.min(TL[1], TR[1], BL[1] ,BR[1]))   # first horizontal line from the bottom to cut the box 
-    box_lef = ceil(np.min(TL[0], TR[0], BL[0] ,BR[0]))
-    box_rig = floor(np.max(TL[0], TR[0], BL[0] ,BR[0]))
+    box_lef = ceil(np.min(TL[0], TR[0], BL[0] ,BR[0]))  # this is not used
+    box_rig = floor(np.max(TL[0], TR[0], BL[0] ,BR[0])) # this is not used
     
 
     isect = lambda a,b,c: (c-b)/a
