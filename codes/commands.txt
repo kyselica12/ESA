@@ -1,0 +1,12 @@
+Rscript script_threads/run.r -F /mnt/backup/silha/IPE_js/IPE_TD/14068A_R_1/14068A_R_1-001_d_m.fit -A 6 -B 6 -C 0 -N 10 -L 1 -D 0.001 -M 20 -I 2 -S 3 -Z 3 -O /mnt/backup/silha/IPE_js/IPE_TD/14068A_R_1/14068A_R_1-001_d_m -Y 25 -G 10 -H 1 -K sweep -P 3 -X 22
+
+Rscript script_threads/run.r -F /mnt/backup/silha/IPE_js/IPE_TD/16002A_1_I/16002A_1_I-0002_m.fit -A 45 -B 6 -C 45 -N 10 -L 1 -D 0.000001 -M 100 -I 2 -S 3 -Z 3 -O /mnt/backup/silha/IPE_js/IPE_TD/16002A_1_I/SC/16002A_1_I-0002_m -Y 100 -G 0 -H 0 -K sweep -P 1 -X 23
+
+
+cd "C:\Program Files\R\R-3.6.3\bin\Rscript"
+
+"C:\Program Files\R\R-3.6.3\bin\Rscript" script_threads\run.r -F 14068A_R_1-001_d_m.fit -A 6 -B 6 -C 0 -N 10 -L 1 -D 0.001 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25 -G 10 -H 1 -K sweep -P 3 -X 22
+
+Rscript script_threads\run.r -F 16002A_1_I-0002_m.fit -A 45 -B 6 -C 45 -N 10 -L 1 -D 0.000001 -M 100 -I 2 -S 3 -Z 3 -O 16002A_1_I-0002_m -Y 100 -G 0 -H 0 -K sweep -P 1 -X 23
+
+

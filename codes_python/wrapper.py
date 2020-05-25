@@ -1,0 +1,6 @@
+
+
+
+class CentroidSimpleWrapper:
+    #TODO
+    pass
