@@ -15,6 +15,9 @@ IMAGE = fits.getdata(args.input)
 
 ALG_PARS = {"CENTRE_LIMIT" : 0, "MATCH_LIMIT"  : 1 }
 
+if args.parallel == 1: # run serial
+    pass
+    
 
 
 

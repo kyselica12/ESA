@@ -51,8 +51,3 @@ def fing_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prob, bckg=0):
     return (sum_Gx/sum_G, sum_Gy/sum_G), data_X, data_Y, data_Z
     
 
-
-
-
-
-#TODO
