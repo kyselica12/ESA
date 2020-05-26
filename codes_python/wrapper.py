@@ -154,7 +154,7 @@ class CentroidSimpleWrapper:
                 cent_x, cent_y = current[0]
             # ??? dofference in R
 
-            grav_simple = current.copy()
+            grav_simple = deepcopy(current)
             cent_x, cent_y = grav_simple[0]
 
         # remove local background from local pixels (for calculation of statistics, IMAGE is not changed)
