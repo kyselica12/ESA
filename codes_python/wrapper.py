@@ -2,6 +2,7 @@ from run_functions import remove_negative
 from getPixels import get_pixels
 from getGratvityCentre import fing_gravity_centre
 import numpy as np
+from copy import deepcopy
 
 
 class CentroidSimpleWrapper:
@@ -139,7 +140,7 @@ class CentroidSimpleWrapper:
         if iter < self.min_iter:
             return [cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0], -1, log, 'Not enough iterations.', 6
 
-        grav_simple = current.copy()
+        grav_simple = deepcopy(current)
         cent_x, cent_y = grav_simple[0]
 
 
