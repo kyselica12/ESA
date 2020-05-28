@@ -3,6 +3,7 @@ from getPixels import get_pixels
 from getGratvityCentre import fing_gravity_centre
 import numpy as np
 from copy import deepcopy
+from structures import *
 
 
 class CentroidSimpleWrapper:
@@ -76,19 +77,30 @@ class CentroidSimpleWrapper:
 
         return local_noise_median
 
-    def execute(self):
+    def execute(self) -> WrapperResult:
 
-        data_X, data_Y, data_Z = get_pixels(self.init_x, self.init_y, self.A, self.B, self.alpha, self.image)
+        _, _, data_Z = get_pixels(self.init_x, self.init_y, self.A, self.B, self.alpha, self.image)
 
         # check the content of the rectangle
         if np.nan in data_Z or data_Z == []:
-            return [0 for _ in range(11)], -1, None, "Null data", 1
-
+            return WrapperResult(result=[0 for _ in range(11)],
+                              noise=-1,
+                              log=None,
+                              message='Null data',
+                              code=1)
         if len(data_Z) < 4:
-            return [0 for _ in range(11)], -1, None, "Not enough data", 2
+            return WrapperResult(result=[0 for _ in range(11)],
+                              noise=-1,
+                              log=None,
+                              message='Not enough data',
+                              code=2)
         
         if np.max(data_Z) < self.pix_lim:
-            return [0 for _ in range(11)], -1, None, "Not pixel bright enough", 3
+            return WrapperResult(result=[0 for _ in range(11)],
+                              noise=-1,
+                              log=None,
+                              message='Not pixel bright enough',
+                              code=3)
         
         # find gravity centre
         c_x = self.init_x
@@ -104,7 +116,11 @@ class CentroidSimpleWrapper:
             cent, X_pixels, Y_pixels, Z_pixels = current
 
             if cent is None:
-                return [c_x, c_y, 0, 0, 0, 0, 0, 0, 0, 0, 0], -1, log, 'Could not find gravity centre', 4
+                return WrapperResult(result=[c_x, c_y, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                              noise=-1,
+                              log=log,
+                              message='Could not find gravity centre',
+                              code=4)
 
             # log attempt
             mu = np.mean(Z_pixels)
@@ -134,11 +150,19 @@ class CentroidSimpleWrapper:
 
         # stop if did not finish iteration in time
         if iter > self.max_iter:
-            return [cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0], -1, log, 'Maximum number of iterations reached.', 5
+            return WrapperResult(result=[cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+                              noise=-1,
+                              log=log,
+                              message='Maximum number of iterations reached.',
+                              code=5)
 
         # stop is finished too quickly
         if iter < self.min_iter:
-            return [cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0], -1, log, 'Not enough iterations.', 6
+            return WrapperResult(result=[cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+                              noise=-1,
+                              log=log,
+                              message='Not enough iterations.',
+                              code=6)
 
         grav_simple = deepcopy(current)
         cent_x, cent_y = grav_simple[0]
@@ -149,10 +173,10 @@ class CentroidSimpleWrapper:
         # fine centroiding with local noise removed
         if self.fine_iter > 0 and self.local_noise != 0:
             
-            for i in range(self.fine_iter):
+            for _ in range(self.fine_iter):
                 current = fing_gravity_centre(cent_x, cent_y, self.A, self.B, self.alpha, self.image, self.pix_prop, background)
                 cent_x, cent_y = current[0]
-            # ??? dofference in R
+            # ??? difference in R
 
             grav_simple = deepcopy(current)
             cent_x, cent_y = grav_simple[0]
@@ -168,17 +192,25 @@ class CentroidSimpleWrapper:
         snr    = signal / noise
 
         if snr < self.snr_lim:
-            return [cent_x, cent_y, snr, iter, np.sum(Z_pixels), 0, 0, 0, 0, 0, 0], background, log, 'Low signal-to-noise value.',  7
+            return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(Z_pixels), 0, 0, 0, 0, 0, 0],
+                              noise=background,
+                              log=log,
+                              message='Low signal-to-noise value.',
+                              code=7)
         
         # stop if centre not right
-        maxpix_v = np.max(Z_pixels)
+        # maxpix_v = np.max(Z_pixels)
         maxpix_i = np.argmax(Z_pixels)
         maxpix_x = X_pixels[maxpix_i]
         maxpix_y = Y_pixels[maxpix_i]
         maxpix_d = np.sqrt((maxpix_x - cent_x)**2 + (maxpix_y - cent_y)**2)
 
         if self.is_point and maxpix_d > np.min(self.A, self.B)/2 :
-            return [cent_x, cent_y, 0, iter, 0, 0, 0, 0, 0, 0, 0], -1, log, 'Centre not right.', 8
+            return WrapperResult(result=[cent_x, cent_y, 0, iter, 0, 0, 0, 0, 0, 0, 0],
+                              noise=-1,
+                              log=log,
+                              message='Centre not right.',
+                              code=8)
 
 
         # moments
@@ -193,7 +225,11 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             log.append([current[0][0], current[0][1], 0, iter, np.sum(current[-1]), mu, v, s, sk, ku])
 
-        return [cent_x, cent_y, snr, iter, np.sum(grav_simple[-1]), mu, v,s,sk,ku, background]
+        return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple[-1]), mu, v,s,sk,ku, background],
+                              noise=background,
+                              log=log,
+                              message='OK',
+                              code=0)
 
         
     

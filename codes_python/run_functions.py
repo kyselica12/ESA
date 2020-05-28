@@ -7,7 +7,10 @@ def remove_negative(v,val):
     v[v<0] = val
     return v
 
-
+def combine_results(results):
+    #TODO
+    result = []
+    return result
 
 ## TODO
 # combine results from parallel processing

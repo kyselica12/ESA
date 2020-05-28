@@ -107,7 +107,6 @@ def read_arguments():
 
     args = parser.parse_args()
 
-    print(args)
 
     return args
 
