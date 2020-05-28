@@ -111,17 +111,20 @@ class Serial:
 
                 self.perform_step(sumGx/sumG, sumGy/sumG)
 
-        return self.database, self.discarded, \
-            (self.started,      # statistics
-             self.nulldata, 
-             self.notenough, 
-             self.notbright, 
-             self.nocentre, 
-             self.maxiter, 
-             self.miniter, 
-             self.lowsnr, 
-             self.ok, 
-             self.notright)
+        return SerialResult(database=self.database,
+                            discarded=self.discarded,
+                            stats=Stats(started=self.started,
+                                        nulldata=self.nulldata,
+                                        notbright=self.notbright,
+                                        notenough=self.notenough,
+                                        nocentre=self.nocentre,
+                                        maxiter=self.maxiter,
+                                        miniter=self.miniter,
+                                        lowsnr=self.lowsnr,
+                                        ok=self.ok,
+                                        notright=self.notright
+                                        )
+                            )
 
     def perform_step(self, x,y):
         

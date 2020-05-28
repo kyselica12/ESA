@@ -35,5 +35,11 @@ class Database:
         return 1
 
     def add(self, data):
-
         self.data = np.concatenate((self.data, [data]))
+
+    def concatenate(self, other):
+
+        new = Database(0, self.nrows, self.ncols, self.col_names)
+        new.data = np.concatenate((self.data, other.data))
+        
+        return new

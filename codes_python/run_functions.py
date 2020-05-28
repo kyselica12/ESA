@@ -1,3 +1,7 @@
+from structures import *
+from database import Database
+from typing import List
+
 # def switch_X(F):
 #     return(apply(t(F[,ncol(F):1]),2,rev))
 # -> not neede in numpy axis are in good order already
@@ -7,63 +11,49 @@ def remove_negative(v,val):
     v[v<0] = val
     return v
 
-def combine_results(results):
-    #TODO
-    result = []
-    return result
+def combine_results(results : List[SerialResult]):
 
-## TODO
-# combine results from parallel processing
-# combineResults = function(parResults){
-#     # reset database
-#     DATABASE  = matrix(0, nrow=0, ncol=11)
-#     DISCARDED = matrix(0, nrow=0, ncol=11)
+    names = ('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg')
+    database  = Database(init_value=0, nrows=0, ncols=11, col_names=names )
+    discarded = Database(init_value=0, nrows=0, ncols=11, col_names=names )
     
-#     colnames(DATABASE)  = c('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg')
-#     colnames(DISCARDED) = c('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg')
+    started   = 0
+    nulldata  = 0
+    notenough = 0
+    notbright = 0
+    nocentre  = 0
+    maxiter   = 0
+    miniter   = 0
+    lowsnr    = 0
+    ok        = 0
+    notright  = 0
 
-#     # stats
-#     started   = 0
-#     nulldata  = 0
-#     notenough = 0
-#     notbright = 0
-#     nocentre  = 0
-#     maxiter   = 0
-#     miniter   = 0
-#     lowsnr    = 0
-#     ok        = 0
-#     notright  = 0
+    for result in results:
+        database = database.concatenate(result.database)
+        discarded = database.concatenate(result.discarded)
 
-#     for(i in 1:length(parResults)){
-#         DATABASE  = rbind(DATABASE,  parResults[[i]]$DATABASE)
-#         DISCARDED = rbind(DISCARDED, parResults[[i]]$DISCARDED)
+        started  += result.started
+        nulldata += result.nulldata
+        notenough+= result.notenough
+        notbright+= result.notbright
+        nocentre += result.nocentre
+        maxiter  += result.maxiter
+        miniter  += result.miniter
+        lowsnr   += result.lowsnr
+        ok       += result.ok
+        notright += result.notright
 
-#         started   = started   + parResults[[i]]$STATS$started
-#         nulldata  = nulldata  + parResults[[i]]$STATS$nulldata
-#         notenough = notenough + parResults[[i]]$STATS$notenough
-#         notbright = notbright + parResults[[i]]$STATS$notbright
-#         nocentre  = nocentre  + parResults[[i]]$STATS$nocentre
-#         maxiter   = maxiter   + parResults[[i]]$STATS$maxiter
-#         miniter   = miniter   + parResults[[i]]$STATS$miniter
-#         lowsnr    = lowsnr    + parResults[[i]]$STATS$lowsnr
-#         ok        = ok        + parResults[[i]]$STATS$ok
-#         notright  = notright  + parResults[[i]]$STATS$notright
-#     }
-
-#     return(list(
-#         'DATABASE'  = DATABASE,
-#         'DISCARDED' = DISCARDED,
-#         'STATS'     = list(
-#             'started'   = started,
-#             'nulldata'  = nulldata,
-#             'notenough' = notenough,
-#             'notbright' = notbright,
-#             'nocentre'  = nocentre,
-#             'maxiter'   = maxiter,
-#             'miniter'   = miniter,
-#             'lowsnr'    = lowsnr,
-#             'ok'        = ok,
-#             'notright'  = notright
-#         )
-#     ))
-# }
+    return SerialResult(database=database,
+                            discarded=discarded,
+                            stats=Stats(started=started,
+                                        nulldata=nulldata,
+                                        notbright=notbright,
+                                        notenough=notenough,
+                                        nocentre=nocentre,
+                                        maxiter=maxiter,
+                                        miniter=miniter,
+                                        lowsnr=lowsnr,
+                                        ok=ok,
+                                        notright=notright
+                                        )
+                            )
