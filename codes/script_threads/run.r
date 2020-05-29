@@ -1,15 +1,15 @@
 time.init = system.time({ #########################################################################  This block:
 # general functions                                                                               #  1) loads/installs packages
-source('script_threads/run_functions.r')                                                          #  2) loads functions
+source('run_functions.r')                                                          #  2) loads functions
 #                                                                                                 #  3) parses options
 # preamble                                                                                        #  4) saves call
-source('script_threads/run_preamble.r')                                                           #
+source('run_preamble.r')                                                           #
 #                                                                                                 #
 # load input parameters                                                                           #
-source('script_threads/run_options.r')                                                            #  <<< creates "opt" GLOBAL VAR
+source('run_options.r')                                                            #  <<< creates "opt" GLOBAL VAR
 #                                                                                                 #
 # save call                                                                                       #
-source('script_threads/run_call.r', local=TRUE)                                                   #
+source('run_call.r', local=TRUE)                                                   #
 }) ################################################################################################
 
 time.load = system.time({##########################################################################  This block:
@@ -52,7 +52,7 @@ time.cmp = system.time({########################################################
 #                                                                                                 #   either in serial or parallel processing
 #                                                                                                 #
 # load functions                                                                                  #
-source('script_threads/run_serial.r')                                                             #
+source('run_serial.r')                                                             #
 #                                                                                                 #
 if(opt$parallel == 1){                                                                            #
     # write all processing output to log file                                                     #
@@ -65,6 +65,7 @@ if(opt$parallel == 1){                                                          
 }                                                                                                 #
 })#################################################################################################
 
+print(results$STATS)
 # if nothing was found
 if(nrow(results$DATABASE) == 0){
     

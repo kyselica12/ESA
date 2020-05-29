@@ -32,7 +32,7 @@ if args.parallel == 1: # run serial
 
     print('start serial process')
 
-    process = run_serial.Serial(args, image, log_file=log_file)
+    process = run_serial.Serial(args, image, log_file='log1.log')
     result = process.execute(index=(0, image.shape[0]-1, 0, image.shape[1]-1))
         
 else:
@@ -41,7 +41,8 @@ else:
 
 
 print('SUCESS')
-print(result)
+print(result.database.data)
+print(result.stats)
 
 
 

@@ -33,10 +33,10 @@ pkgTest("car")
 cat('\n')
 
 # functions
-cat('Loading source file script/getPixels.r\n');     source('script_threads/getPixels.r')
-cat('Loading source file script/gravityCentre.r\n'); source('script_threads/gravityCentre.r')
-cat('Loading source file script/wrapper.r\n');       source('script_threads/wrapper.r')
-cat('Loading source file script/database.r\n');      source('script_threads/database.r')
-cat('Loading source file script/report.r\n');        source('script_threads/report.r')
+cat('Loading source file script/getPixels.r\n');     source('getPixels.r')
+cat('Loading source file script/gravityCentre.r\n'); source('gravityCentre.r')
+cat('Loading source file script/wrapper.r\n');       source('wrapper.r')
+cat('Loading source file script/database.r\n');      source('database.r')
+cat('Loading source file script/report.r\n');        source('report.r')
 
 cat('\n')

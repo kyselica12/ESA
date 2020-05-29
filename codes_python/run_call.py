@@ -1,5 +1,5 @@
 def save_call(args):
-    data = 'pthon3 ./main.py '
+    data = 'python3 ./main.py '
     data += '-F ' + str(args.input) + ' '
     data += '-A ' + str(args.width) + ' '
     data += '-B ' + str(args.height) + ' '
@@ -12,7 +12,8 @@ def save_call(args):
     data += '-I ' + str(args.min_iter) + ' '
     data += '-S ' + str(args.snr_lim) + ' '
     data += '-Z ' + str(args.color) + ' '
-    data += '-E ' + str(args.model) + ' '
+    if args.model != '':
+        data += '-E ' + str(args.model) + ' '
     data += '-O ' + str(args.output) + ' '
     data += '-Y ' + str(args.cent_pix_perc) + ' '
     data += '-G ' + str(args.init_noise_removal) + ' '

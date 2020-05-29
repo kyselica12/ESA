@@ -9,8 +9,8 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
         # four corners of the box
         TL = vecR - vecA + vecB
         TR = vecR + vecA + vecB
-        BL = vecR - vecA + vecB
-        BR = vecR + vecA + vecB
+        BL = vecR - vecA - vecB
+        BR = vecR + vecA - vecB
         # define four bounding lines
         if abs(np.tan(alpha)) > 0:
             tgA = np.tan(alpha)
@@ -45,7 +45,10 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
         return x
 
     def get_left_right_x_from_cornerpoints(x_bot, x_top):
-        x_sort = np.ceil(sorted(x_top + x_bot)).astype(int)
+        x_bot = np.round(x_bot, 6) # this is needed because of numerical instability of ceil
+        x_top = np.round(x_top, 6)
+        sorted = np.sort(np.concatenate((x_top, x_bot)))
+        x_sort = np.ceil(sorted).astype(int)
         x_lef = x_sort[0]
         x_rig = x_sort[-1]
         return x_lef, x_rig
@@ -77,7 +80,7 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
     box_top = np.floor(np.max([TL[1], TR[1], BL[1], BR[1]])).astype(int)  # first horizontal line from the top to cut the box
     box_bot = np.ceil(np.min([TL[1], TR[1], BL[1], BR[1]])).astype(int)  # first horizontal line from the bottom to cut the box
 
-    y = np.min([box_top, nrow - 1]).astype(int)
+    y = np.min([box_top+1, nrow - 1]).astype(int)
 
     if y < 0:
         return X_pixels, Y_pixels, Z_pixels
@@ -98,13 +101,13 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
 
     beg = y
 
-    if y == 0 or box_bot > nrow:
+    if y == 0 or box_bot >= nrow:
         return X_pixels, Y_pixels, Z_pixels
 
     # INTERMEDIATE PIXELS
     # cycle through pixels from top to bottom
-    start = max(max(box_bot, 0), beg)
-    end = min(max(box_bot, 0), beg) - 1
+    start = beg-1
+    end = max(box_bot+1, 0) - 1
 
     for y in range(start, end, -1):
         # for each y we need to determine the left and right border
@@ -125,26 +128,29 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
 
         # LAST LINE OF PIXELS
 
-        if y != 0:
-            y = box_bot
-            x_top = x_bot
-            # align with pixels
-            x_lef, x_rig = get_left_right_x_from_cornerpoints(x_bot, x_top)
+    if y != 0:
+        y = box_bot
+        x_top = x_bot
+        # align with pixels
+        x_lef, x_rig = get_left_right_x_from_cornerpoints(x_bot, x_top)
 
-            X_pixels, Y_pixels, Z_pixels = get_pixels_from_row(x_lef, x_rig, y)
+        X_pixels, Y_pixels, Z_pixels = get_pixels_from_row(x_lef, x_rig, y)
 
     return X_pixels, Y_pixels, Z_pixels
 
 
 if __name__ == "__main__":
-    image = np.random.rand(10, 10)
 
-    cent_x = 4
+    image = np.array([ [ j*10+i+1  for j in range(10) ] for i in range(10)])
+
+    cent_x = 9
     cent_y = 4
     A, B = 2, 2
-    alpha = np.pi/2
+    alpha = 0
 
     r = get_pixels(cent_x, cent_y, A, B, alpha, image)
-    print(r)
+    print(r[0])
+    print(r[1])
+    print(r[2])
     for i in r:
         print(i.shape)

@@ -2,7 +2,7 @@ from getPixels import get_pixels
 import numpy as np
 
 
-def fing_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prob, bckg=0):
+def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
 
     # function find gravity centre of the pixels from the box centred at CENT with length 2*A a width 2*B
     
@@ -22,7 +22,7 @@ def fing_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prob, bckg=0):
     
     # else return centre
 
-    if pix_prob == 100:
+    if pix_prop == 100:
         if bckg != 0:
             # this is to avoid unnecessary subtractions when BCKG == 0
             data_Z = data_Z - bckg
@@ -34,8 +34,8 @@ def fing_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prob, bckg=0):
     else:
         # centroiding from PIXPROP pixels
         tmp = np.concatenate([data_Z.reshape(-1,1),data_X.reshape(-1,1), data_Y.reshape(-1,1)], axis=1)
-        tmp = tmp[tmp[:,0].argsort(kind='mergesort')]
-        tmp = tmp[0: np.floor(tmp.shape[0] * pix_prob / 100)]
+        tmp = tmp[(-tmp[:,0]).argsort(kind='mergesort')] # - is for descending order
+        tmp = tmp[0: np.floor(tmp.shape[0] * pix_prop / 100).astype(int)]
 
         z = tmp[:,0]
         if bckg != 0:
@@ -49,5 +49,18 @@ def fing_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prob, bckg=0):
         sum_Gy = np.sum(z * (y - 0.5))
 
     return (sum_Gx/sum_G, sum_Gy/sum_G), data_X, data_Y, data_Z
-    
 
+
+if __name__ == "__main__":
+
+    pixlim = 22
+    init_x = 354
+    init_y = 78
+    alpha = 0
+    A = B = 6
+
+    from astropy.io import fits
+
+    image = fits.getdata('14068A_R_1-001_d_m.fit')
+
+    res = find_gravity_centre(init_x, init_y, A, B, alpha, image, pixlim)

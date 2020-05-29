@@ -1,6 +1,6 @@
  # transform image
 switchX = function(F){
-    return(aplpy(t(F[,ncol(F):1]),2,rev))
+    return(apply(t(F[,ncol(F):1]),2,rev))
 }
 
 # remove negative values

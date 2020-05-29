@@ -42,10 +42,10 @@ class Parallel:
                     y_end = self.image.shape[1]-1
 
                 indexes.append((x_start,x_end,y_start,y_end))
-
         with concurrent.futures.ProcessPoolExecutor() as executor:
+            print('start processes')
             results = executor.map(execute_serial, indexes)
-        
+        print('end processes')
 
         result = run_functions.combine_results(results)
 

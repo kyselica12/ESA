@@ -13,6 +13,12 @@ performStep = function(x,y,out){
     # this has to be set for the "return from function" part
     UD = list('code' = 0)
 
+    if (x==355){
+        if (y==79){
+            print("debug")
+        }
+    }
+
     current =  centroidSimpleWrapper(
                 IMAGE      = IMAGE,
                 INIT.X     = x,
@@ -183,44 +189,44 @@ executeSerial = function(index){
     }
     
     # cluster analysis
-    if(opt$method == 'clusters'){
-        pixels = which(IMAGE > opt$`start-iter`, arr.ind = T)
-        
-        Xs = pixels[,2]
-        Ys = pixels[,1]
-        
-        # keep only those in range x.{start,end}, y.{start,end}
-        good = (x.start < Xs) & (Xs < x.end) & (y.start < Ys) & (Ys < y.end)
-        
-        pixels = as.data.frame(pixels[good,])
-        
-        # python clustering
-        python.assign("pixels", pixels)
-        python.assign("thresh", sqrt(A**2 + B**2) )
-        python.load("script_threads/python_clustering.py")
-        clusters = python.get("clusters")
-    
-        pixels = cbind(pixels, clusters)
-        pixels = pixels[order(pixels$clusters),]
-        
-        for(i in 1:max(clusters)){
-            # get cluster
-            XY = pixels[pixels$clusters == i,]
-            X  = XY[,2]
-            Y  = XY[,1]
-            Z  = c()
-            for(j in 1:nrow(XY)) Z = c(Z, IMAGE[Y[j], X[j]])
-            # centre of the cluster
-            sumG  = sum(Z)
-            sumGx = sum(Z*(X - 0.5))
-            sumGy = sum(Z*(Y - 0.5))
-            # centroiding
-            environment(performStep) = environment()
-            performStep(sumGx/sumG, sumGy/sumG, FALSE)
-        }
-    
-    }
-    
+    #if(opt$method == 'clusters'){
+    #    pixels = which(IMAGE > opt$`start-iter`, arr.ind = T)
+    #
+    #    Xs = pixels[,2]
+    #    Ys = pixels[,1]
+    #
+    #    # keep only those in range x.{start,end}, y.{start,end}
+    #    good = (x.start < Xs) & (Xs < x.end) & (y.start < Ys) & (Ys < y.end)
+    #
+    #    pixels = as.data.frame(pixels[good,])
+    #
+    #    # python clustering
+    #    python.assign("pixels", pixels)
+    #    python.assign("thresh", sqrt(A**2 + B**2) )
+    #    python.load("script_threads/python_clustering.py")
+    #    clusters = python.get("clusters")
+    #
+    #    pixels = cbind(pixels, clusters)
+    #    pixels = pixels[order(pixels$clusters),]
+    #
+    #    for(i in 1:max(clusters)){
+    #        # get cluster
+    #        XY = pixels[pixels$clusters == i,]
+    #        X  = XY[,2]
+    #        Y  = XY[,1]
+    #        Z  = c()
+    #        for(j in 1:nrow(XY)) Z = c(Z, IMAGE[Y[j], X[j]])
+    #        # centre of the cluster
+    #        sumG  = sum(Z)
+    #        sumGx = sum(Z*(X - 0.5))
+    #        sumGy = sum(Z*(Y - 0.5))
+    #        # centroiding
+    #        environment(performStep) = environment()
+    #        performStep(sumGx/sumG, sumGy/sumG, FALSE)
+    #    }
+    #
+    #}
+    #
     return(list(
         'DATABASE'  = DATABASE,
         'DISCARDED' = DISCARDED,

@@ -2,3 +2,5 @@ Rscript script_threads/run.r -Fasdflkj -A3 -B3 -C0 -N10 -L0 -D0.001 -X1000 -M10 
 Rscript script_threads/run.r -F asdflkj -A 3 -B 3 -C 0 -N 10 -L 0 -D 0.001 -X 1000 -M 10 -I 2 -S 2 -Z 3 -E  -O ./results/new -Y 100.0 -G 0 -H 0 -K sweep -P 1 -V 0
 Rscript script_threads/run.r -F asdflkj -A 3.0 -B 3.0 -C 0.0 -N 10.0 -L 0.0 -D 0.001 -X 1000 -M 10 -I 2 -S 2 -Z 3 -E b -O ./results/new -Y 100.0 -G 0.0 -H 0 -K sweep -P 1 -V 0
 
+python3 ./main.py -F  -A 3 -B 3 -C 0 -N 10 -L 0 -D 0.001 -X 1000 -M 10 -I 2 -S 2 -Z 3 -O ./results/new -Y 100.0 -G 0 -H 0 -K sweep -P 1 -V 0
+

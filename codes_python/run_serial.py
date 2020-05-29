@@ -53,11 +53,13 @@ class Serial:
 
         if self.args.method == 'sweep':
 
-            Xs = np.floor(np.arange(x_start + A, x_end - A, 2*A ))
-            Ys = np.floor(np.arange(y_start + B, y_end - B, 2*B ))
+            Xs = np.floor(np.arange(x_start + A, x_end - A, 2*A )).astype(int)
+            Ys = np.floor(np.arange(y_start + B, y_end - B, 2*B )).astype(int)
 
             for y in Ys:
                 for x in Xs:
+                    if y == 78 and x == 354:
+                        print('debug')
                     print('One step')
                     self.perform_step(x, y)
 

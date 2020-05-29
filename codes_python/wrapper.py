@@ -1,6 +1,6 @@
 from run_functions import remove_negative
 from getPixels import get_pixels
-from getGratvityCentre import fing_gravity_centre
+from getGratvityCentre import find_gravity_centre
 import numpy as np
 from copy import deepcopy
 from structures import *
@@ -36,9 +36,9 @@ class CentroidSimpleWrapper:
         i = 1
         j = 1
 
-        while i <= len(s):
+        while i < len(s):
             # end of t
-            if  j > len(t):
+            if  j >= len(t):
                 break
             # s_i smaller than t_j -> add s_i to n
             if s[i] < t[j]:
@@ -112,7 +112,7 @@ class CentroidSimpleWrapper:
 
         while True:
 
-            current = fing_gravity_centre(c_x, c_y, self.A, self.B, self.alpha, self.image, self.pix_prop)
+            current = find_gravity_centre(c_x, c_y, self.A, self.B, self.alpha, self.image, self.pix_prop)
             cent, X_pixels, Y_pixels, Z_pixels = current
 
             if cent is None:
@@ -174,7 +174,7 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             
             for _ in range(self.fine_iter):
-                current = fing_gravity_centre(cent_x, cent_y, self.A, self.B, self.alpha, self.image, self.pix_prop, background)
+                current = find_gravity_centre(cent_x, cent_y, self.A, self.B, self.alpha, self.image, self.pix_prop, background)
                 cent_x, cent_y = current[0]
             # ??? difference in R
 
@@ -182,6 +182,7 @@ class CentroidSimpleWrapper:
             cent_x, cent_y = grav_simple[0]
 
         # remove local background from local pixels (for calculation of statistics, IMAGE is not changed)
+        #FIXME tuple assigment error
         grav_simple[-1] = remove_negative(grav_simple[-1] - background, val=10)
         
         # Definition for 1 pixel SNR (peak SNR) from Raab (2001) - Detecting and measuring faint point sources with a CCD, eq. 5
