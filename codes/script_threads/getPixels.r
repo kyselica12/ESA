@@ -73,7 +73,7 @@ getPixels = function(CENT.X, CENT.Y, A, B, ALPHA, IMAGE){
         x3.top = BL[1]
         x4.top = TR[1]
     }
-    
+
     # for the first line, top == bot
     x1.bot = x1.top
     x2.bot = x2.top

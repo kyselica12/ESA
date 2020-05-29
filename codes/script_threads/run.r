@@ -65,38 +65,38 @@ if(opt$parallel == 1){                                                          
 }                                                                                                 #
 })#################################################################################################
 
-# # if nothing was found
-# if(nrow(results$DATABASE) == 0){
+# if nothing was found
+if(nrow(results$DATABASE) == 0){
     
-#     cat('\n')
-#     cat('Identified stars:    ', nrow(results$DATABASE),  '\n')
-#     cat('Discarded stars:     ', nrow(results$DISCARDED), '\n')
-#     cat('Matched stars:       ', 0,                       '\n')
-#     cat('\n')
+    cat('\n')
+    cat('Identified stars:    ', nrow(results$DATABASE),  '\n')
+    cat('Discarded stars:     ', nrow(results$DISCARDED), '\n')
+    cat('Matched stars:       ', 0,                       '\n')
+    cat('\n')
     
-#     cat('Started iterations:  ', results$STATS$started,  '\n')
-#     cat('\tOK:          ',       results$STATS$ok,       '\n')
-#     cat('\tNull data:   ',       results$STATS$nulldata, '\n')
-#     cat('\tNo data:     ',       results$STATS$notenough,'\n')
-#     cat('\tNo bright:   ',       results$STATS$notbright,'\n')
-#     cat('\tNo centre:   ',       results$STATS$nocentre, '\n')
-#     cat('\tMax iter:    ',       results$STATS$maxiter,  '\n')
-#     cat('\tMin iter:    ',       results$STATS$miniter,  '\n')
-#     cat('\tLow SNR:     ',       results$STATS$lowsnr,   '\n')
-#     cat('\tNot right:   ',       results$STATS$notright, '\n')
+    cat('Started iterations:  ', results$STATS$started,  '\n')
+    cat('\tOK:          ',       results$STATS$ok,       '\n')
+    cat('\tNull data:   ',       results$STATS$nulldata, '\n')
+    cat('\tNo data:     ',       results$STATS$notenough,'\n')
+    cat('\tNo bright:   ',       results$STATS$notbright,'\n')
+    cat('\tNo centre:   ',       results$STATS$nocentre, '\n')
+    cat('\tMax iter:    ',       results$STATS$maxiter,  '\n')
+    cat('\tMin iter:    ',       results$STATS$miniter,  '\n')
+    cat('\tLow SNR:     ',       results$STATS$lowsnr,   '\n')
+    cat('\tNot right:   ',       results$STATS$notright, '\n')
     
-#     cat('\nInit time:        ', '\n')
-#     print(time.init)
+    cat('\nInit time:        ', '\n')
+    print(time.init)
     
-#     cat('\nLoading time:     ', '\n')
-#     print(time.load)
+    cat('\nLoading time:     ', '\n')
+    print(time.load)
     
-#     cat('\nComputation time: ', '\n')
-#     print(time.cmp)
+    cat('\nComputation time: ', '\n')
+    print(time.cmp)
     
-#     cat('\n')
-#     stop('No stars found!')
-# }
+    cat('\n')
+    stop('No stars found!')
+}
 
 # time.wrt = system.time({###########################################################################  This block writes:
 # #                                                                                                 #  1) writes database

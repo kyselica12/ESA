@@ -58,6 +58,7 @@ class Serial:
 
             for y in Ys:
                 for x in Xs:
+                    print('One step')
                     self.perform_step(x, y)
 
         elif self.args.method == 'max':
@@ -136,11 +137,11 @@ class Serial:
                                         A=self.args.width,
                                         B=self.args.height,
                                         noise_dim=self.args.noise_dim,
-                                        alpha=self.args.alpha,
+                                        alpha=self.args.angle*np.pi/180,
                                         local_noise=self.args.local_noise,
                                         delta=self.args.delta,
-                                        pix_lim=self.args.pix_lim,
-                                        pix_prop=self.args.pix_prop,
+                                        pix_lim=self.args.start_iter,
+                                        pix_prop=self.args.cent_pix_perc,
                                         max_iter=self.args.max_iter,
                                         min_iter=self.args.min_iter,
                                         snr_lim=self.args.snr_lim,

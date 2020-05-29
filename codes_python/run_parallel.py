@@ -50,5 +50,3 @@ class Parallel:
         result = run_functions.combine_results(results)
 
         return result
-
-#TODO
