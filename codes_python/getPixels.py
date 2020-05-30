@@ -59,7 +59,7 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
         x_lef = ncol if x_lef > ncol else x_lef
 
         x_rig = 0 if x_rig < 0 else x_rig
-        x_rig = ncol if x_rig > ncol else x_rig
+        x_rig = ncol-1 if x_rig >= ncol else x_rig
 
         res1 = np.concatenate((X_pixels, np.array([x for x in range(x_lef, x_rig + 1)])))
         res2 = np.concatenate((Y_pixels, np.array([y for _ in range(x_rig - x_lef + 1)])))

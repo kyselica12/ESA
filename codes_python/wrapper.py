@@ -123,7 +123,7 @@ class CentroidSimpleWrapper:
 
             # log attempt
             mu = np.mean(current.Z_pixels)
-            v  = np.var(current.Z_pixels)
+            v  = np.var(current.Z_pixels, ddof=1)
             s  = np.sqrt(v)
             sk = np.mean(((current.Z_pixels - mu)/s)**3)
             ku = np.mean(((current.Z_pixels - mu)/s)**4)
@@ -215,7 +215,7 @@ class CentroidSimpleWrapper:
 
         # moments
         mu = np.mean(grav_simple.Z_pixels)
-        v  =  np.var(grav_simple.Z_pixels)
+        v  =  np.var(grav_simple.Z_pixels, ddof=1)
         s  = np.sqrt(v)
         # skewness
         sk = np.mean(((grav_simple.Z_pixels - mu)/s)**3)

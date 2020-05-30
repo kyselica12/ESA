@@ -58,9 +58,9 @@ class Serial:
 
             for y in Ys:
                 for x in Xs:
-                    if y == 78 and x == 354:
+                    if y == 810 and x == 714:
                         print('debug')
-                    print('One step')
+                    # print('One step')
                     self.perform_step(x, y)
 
         elif self.args.method == 'max':

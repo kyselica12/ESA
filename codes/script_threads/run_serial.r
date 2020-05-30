@@ -13,8 +13,8 @@ performStep = function(x,y,out){
     # this has to be set for the "return from function" part
     UD = list('code' = 0)
 
-    if (x==355){
-        if (y==79){
+    if (x==715){
+        if (y==811){
             print("debug")
         }
     }
@@ -40,6 +40,7 @@ performStep = function(x,y,out){
 	
     if(current$code == 0){
         ok <<- ok + 1
+        sprintf(fmt = "\n\n+++ok-%d-%df+++\n\n",x, y) %>% cat()
         # update database if necessary
         UD = updateDatabase(DATABASE, current$result, ALG_PARS$CENTRE_LIMIT)
 
@@ -68,7 +69,9 @@ performStep = function(x,y,out){
     }else if(current$code == 5){ maxiter   <<- maxiter   + 1
     }else if(current$code == 6){ miniter   <<- miniter   + 1
     }else if(current$code == 7){ lowsnr    <<- lowsnr    + 1
-    }else if(current$code == 8){ notright  <<- notright  + 1
+    }else if(current$code == 8){
+        notright  <<- notright  + 1
+        sprintf(fmt = "\n\n+++nr-%d-%df\n\n+++",x, y) %>% cat()
     }
     
     

@@ -32,6 +32,7 @@ findGravityCentre = function(CENT.X, CENT.Y, A, B, ALPHA, IMAGE, PIXPROP, BCKG=0
         # centroiding from PIXPROP pixels
         tmp = cbind(DATA$PXLS_Z, DATA$PXLS_X, DATA$PXLS_Y)
         tmp = tmp[order(tmp[,1], decreasing=TRUE), ]
+        tmp_val = floor(nrow(tmp)*PIXPROP/100)
         tmp = tmp[1:floor(nrow(tmp)*PIXPROP/100),]
         
         if(BCKG == 0){
@@ -41,6 +42,8 @@ findGravityCentre = function(CENT.X, CENT.Y, A, B, ALPHA, IMAGE, PIXPROP, BCKG=0
         }
         X = tmp[,2]
         Y = tmp[,3]
+
+        len = length(X)
         
         sumG  = sum(Z)
         sumGx = sum(Z*(X - 0.5))
