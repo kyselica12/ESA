@@ -13,6 +13,7 @@ CENTRE_LIMIT = 0
 class Serial:
 
     def __init__(self, args, image, log_file=""):
+        print("EEEj")
         self.args = args
         self.log_file = log_file
         self.image = image
@@ -38,7 +39,7 @@ class Serial:
         self.notright = 0
 
     def execute(self, index):
-        
+        print("makam......")
         self.clear_statistics()
 
         x_start, x_end, y_start, y_end = index
@@ -57,6 +58,7 @@ class Serial:
             Ys = np.floor(np.arange(y_start + B, y_end - B, 2*B )).astype(int)
 
             for y in Ys:
+                print('aasd')
                 for x in Xs:
                     if y == 810 and x == 714:
                         print('debug')

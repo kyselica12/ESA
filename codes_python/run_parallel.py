@@ -1,6 +1,15 @@
 import concurrent
 import run_serial
+from  copy import deepcopy
 import run_functions
+import multiprocessing
+
+
+def execute_serial(arg):
+    index, args, image = arg
+    process = run_serial.Serial(args, image)
+    return process.execute(index)
+
 
 class Parallel:
 
@@ -14,14 +23,12 @@ class Parallel:
 
     def execute(self):
         
-        def execute_serial(index):
-            process = run_serial.Serial(self.args, self.image)
-            return process.execute(index)
+
         
         lenX = self.image.shape[0] // self.parallel
         lenY = self.image.shape[1] // self.parallel
 
-        indexes = []
+        args = []
 
         for i in range(self.parallel):
             
@@ -41,12 +48,9 @@ class Parallel:
                 else:
                     y_end = self.image.shape[1]-1
 
-                indexes.append((x_start,x_end,y_start,y_end))
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            print('start processes')
-            results = executor.map(execute_serial, indexes)
-        print('end processes')
+                args.append(((x_start,x_end,y_start,y_end), deepcopy(self.args), self.image.copy()))
 
-        result = run_functions.combine_results(results)
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            results = [ result for result in executor.map(execute_serial, args)]
 
         return result
