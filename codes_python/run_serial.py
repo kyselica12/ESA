@@ -156,7 +156,7 @@ class Serial:
 
         if current.code == 0:
             return Step(code=0,
-                        x=current.relust[0],
+                        x=current.result[0],
                         y=current.result[1]
                         )
         else:

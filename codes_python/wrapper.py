@@ -113,9 +113,8 @@ class CentroidSimpleWrapper:
         while True:
 
             current = find_gravity_centre(c_x, c_y, self.A, self.B, self.alpha, self.image, self.pix_prop)
-            cent, X_pixels, Y_pixels, Z_pixels = current
 
-            if cent is None:
+            if current.center is None:
                 return WrapperResult(result=[c_x, c_y, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                               noise=-1,
                               log=log,
@@ -123,17 +122,17 @@ class CentroidSimpleWrapper:
                               code=4)
 
             # log attempt
-            mu = np.mean(Z_pixels)
-            v  = np.var(Z_pixels)
+            mu = np.mean(current.Z_pixels)
+            v  = np.var(current.Z_pixels)
             s  = np.sqrt(v)
-            sk = np.mean(((Z_pixels - mu)/s)**3)
-            ku = np.mean(((Z_pixels - mu)/s)**4)
+            sk = np.mean(((current.Z_pixels - mu)/s)**3)
+            ku = np.mean(((current.Z_pixels - mu)/s)**4)
 
-            log.append([cent[0], cent[1], 0, iter, np.sum(Z_pixels), mu,v,s,sk,ku])
+            log.append([current.center[0], current.center[1], 0, iter, np.sum(current.Z_pixels), mu,v,s,sk,ku])
 
             # position
-            d_x  = c_x - cent[0]
-            d_y  = c_y - cent[1]
+            d_x  = c_x - current.center[0]
+            d_y  = c_y - current.center[1]
             
             # distance from previous centre
             d = np.sqrt(d_x**2 + d_y**2)
@@ -143,14 +142,14 @@ class CentroidSimpleWrapper:
                 break
             
             # new centre position
-            c_x, c_y = cent
+            c_x, c_y = current.center
             
             # count iteration
             iter += 1
 
         # stop if did not finish iteration in time
         if iter > self.max_iter:
-            return WrapperResult(result=[cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=[current.center[0], current.center[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
                               noise=-1,
                               log=log,
                               message='Maximum number of iterations reached.',
@@ -158,14 +157,14 @@ class CentroidSimpleWrapper:
 
         # stop is finished too quickly
         if iter < self.min_iter:
-            return WrapperResult(result=[cent[0], cent[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=[current.center[0], current.center[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
                               noise=-1,
                               log=log,
                               message='Not enough iterations.',
                               code=6)
 
         grav_simple = deepcopy(current)
-        cent_x, cent_y = grav_simple[0]
+        cent_x, cent_y = grav_simple.center
 
 
         background = self.find_background(cent_x, cent_y)
@@ -174,26 +173,26 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             
             for _ in range(self.fine_iter):
-                current = find_gravity_centre(cent_x, cent_y, self.A, self.B, self.alpha, self.image, self.pix_prop, background)
-                cent_x, cent_y = current[0]
+                current = find_gravity_centre(grav_simple.center[0], grav_simple.center[1], self.A, self.B, self.alpha, self.image, self.pix_prop, background)
+                cent_x, cent_y = current.center
             # ??? difference in R
 
             grav_simple = deepcopy(current)
-            cent_x, cent_y = grav_simple[0]
+            cent_x, cent_y = grav_simple.center
 
         # remove local background from local pixels (for calculation of statistics, IMAGE is not changed)
         #FIXME tuple assigment error
-        grav_simple[-1] = remove_negative(grav_simple[-1] - background, val=10)
+        grav_simple.Z_pixels = remove_negative(grav_simple.Z_pixels - background, val=10)
         
         # Definition for 1 pixel SNR (peak SNR) from Raab (2001) - Detecting and measuring faint point sources with a CCD, eq. 5
-        X_pixels, Y_pixels, Z_pixels = grav_simple[1:]
+        # X_pixels, Y_pixels, Z_pixels = grav_simple[1:]
     
-        signal = np.max(Z_pixels)
+        signal = np.max(grav_simple.Z_pixels)
         noise  = np.sqrt(signal + background)
         snr    = signal / noise
 
         if snr < self.snr_lim:
-            return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(Z_pixels), 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels), 0, 0, 0, 0, 0, 0],
                               noise=background,
                               log=log,
                               message='Low signal-to-noise value.',
@@ -201,13 +200,13 @@ class CentroidSimpleWrapper:
         
         # stop if centre not right
         # maxpix_v = np.max(Z_pixels)
-        maxpix_i = np.argmax(Z_pixels)
-        maxpix_x = X_pixels[maxpix_i]
-        maxpix_y = Y_pixels[maxpix_i]
-        maxpix_d = np.sqrt((maxpix_x - cent_x)**2 + (maxpix_y - cent_y)**2)
+        maxpix_i = np.argmax(current.Z_pixels)
+        maxpix_x = current.X_pixels[maxpix_i]
+        maxpix_y = current.Y_pixels[maxpix_i]
+        maxpix_d = np.sqrt((maxpix_x - current.center[0])**2 + (maxpix_y - current.center[1])**2)
 
-        if self.is_point and maxpix_d > np.min(self.A, self.B)/2 :
-            return WrapperResult(result=[cent_x, cent_y, 0, iter, 0, 0, 0, 0, 0, 0, 0],
+        if self.is_point and maxpix_d > np.min([self.A, self.B])/2 :
+            return WrapperResult(result=[current.center[0], current.center[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
                               noise=-1,
                               log=log,
                               message='Centre not right.',
@@ -215,18 +214,18 @@ class CentroidSimpleWrapper:
 
 
         # moments
-        mu = np.mean(Z_pixels)
-        v  =  np.var(Z_pixels)
+        mu = np.mean(grav_simple.Z_pixels)
+        v  =  np.var(grav_simple.Z_pixels)
         s  = np.sqrt(v)
         # skewness
-        sk = np.mean(((Z_pixels - mu)/s)**3)
+        sk = np.mean(((grav_simple.Z_pixels - mu)/s)**3)
         # kurtosis
-        ku = np.mean(((Z_pixels - mu)/s)**4)
+        ku = np.mean(((grav_simple.Z_pixels - mu)/s)**4)
 
         if self.fine_iter > 0 and self.local_noise != 0:
-            log.append([current[0][0], current[0][1], 0, iter, np.sum(current[-1]), mu, v, s, sk, ku])
+            log.append([current.center[0], current.center[1], 0, iter, np.sum(current.Z_pixels), mu, v, s, sk, ku])
 
-        return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple[-1]), mu, v,s,sk,ku, background],
+        return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple.X_pixels), mu, v,s,sk,ku, background],
                               noise=background,
                               log=log,
                               message='OK',

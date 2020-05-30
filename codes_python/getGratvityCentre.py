@@ -1,5 +1,6 @@
 from getPixels import get_pixels
 import numpy as np
+from structures import GravityCentreResult
 
 
 def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
@@ -18,8 +19,7 @@ def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
     
     # if empty, exit
     if len(data_X) == 0:
-        return None, None, None, None
-    
+        return GravityCentreResult(None, None, None, None)
     # else return centre
 
     if pix_prop == 100:
@@ -34,8 +34,8 @@ def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
     else:
         # centroiding from PIXPROP pixels
         tmp = np.concatenate([data_Z.reshape(-1,1),data_X.reshape(-1,1), data_Y.reshape(-1,1)], axis=1)
-        tmp = tmp[(-tmp[:,0]).argsort(kind='mergesort')] # - is for descending order
-        tmp = tmp[0: np.floor(tmp.shape[0] * pix_prop / 100).astype(int)]
+        tmp = tmp[tmp[:,0].argsort(kind='mergesort')]
+        tmp = tmp[0: -np.floor(tmp.shape[0] * pix_prop / 100).astype(int)] # - for indexing from the end where are the biggest values
 
         z = tmp[:,0]
         if bckg != 0:
@@ -48,8 +48,7 @@ def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
         sum_Gx = np.sum(z * (x - 0.5))
         sum_Gy = np.sum(z * (y - 0.5))
 
-    return (sum_Gx/sum_G, sum_Gy/sum_G), data_X, data_Y, data_Z
-
+    return GravityCentreResult( center=(sum_Gx/sum_G, sum_Gy/sum_G), X_pixels=data_X, Y_pixels=data_Y, Z_pixels=data_Z )
 
 if __name__ == "__main__":
 
