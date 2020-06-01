@@ -35,6 +35,7 @@ def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
         # centroiding from PIXPROP pixels
 
         tmp = np.concatenate([data_Z.reshape(-1,1),data_X.reshape(-1,1), data_Y.reshape(-1,1)], axis=1)
+        tmp = tmp[(-tmp[:, 0]).argsort(kind='mergesort')]
         tmp_val = np.floor(tmp.shape[0] * pix_prop / 100).astype(int)
         tmp = tmp[:np.floor(tmp.shape[0] * pix_prop / 100).astype(int), :] # - for indexing from the end where are the biggest values
 

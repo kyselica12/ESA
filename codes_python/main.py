@@ -9,6 +9,7 @@ import run_functions
 import run_call
 import run_parallel
 import run_serial
+from time import time
 
 
 
@@ -35,16 +36,20 @@ if args.parallel == 1: # run serial
     print('start serial process')
 
     process = run_serial.Serial(args, image, log_file='log1.log')
+    start = time()
     result = process.execute(index=(0, image.shape[0]-1, 0, image.shape[1]-1))
+    end = time() - start
         
 else:
     process = run_parallel.Parallel(args, image)
+    start = time()
     result = process.execute()
+    end = time() - start
 
 
-print('SUCESS')
-print(result.database.data)
+print(f'SUCESS in {end}')
 print(result.stats)
+
 
 
 

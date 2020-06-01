@@ -17,43 +17,23 @@ def combine_results(results : List[SerialResult]):
     database  = Database(init_value=0, nrows=0, ncols=11, col_names=names )
     discarded = Database(init_value=0, nrows=0, ncols=11, col_names=names )
     
-    started   = 0
-    nulldata  = 0
-    notenough = 0
-    notbright = 0
-    nocentre  = 0
-    maxiter   = 0
-    miniter   = 0
-    lowsnr    = 0
-    ok        = 0
-    notright  = 0
+    stats = Stats()
 
     for result in results:
         database = database.concatenate(result.database)
         discarded = database.concatenate(result.discarded)
 
-        started  += result.started
-        nulldata += result.nulldata
-        notenough+= result.notenough
-        notbright+= result.notbright
-        nocentre += result.nocentre
-        maxiter  += result.maxiter
-        miniter  += result.miniter
-        lowsnr   += result.lowsnr
-        ok       += result.ok
-        notright += result.notright
+        print( result )
 
-    return SerialResult(database=database,
-                            discarded=discarded,
-                            stats=Stats(started=started,
-                                        nulldata=nulldata,
-                                        notbright=notbright,
-                                        notenough=notenough,
-                                        nocentre=nocentre,
-                                        maxiter=maxiter,
-                                        miniter=miniter,
-                                        lowsnr=lowsnr,
-                                        ok=ok,
-                                        notright=notright
-                                        )
-                            )
+        stats.started  += result.stats.started
+        stats.nulldata += result.stats.nulldata
+        stats.notenough+= result.stats.notenough
+        stats.notbright+= result.stats.notbright
+        stats.nocentre += result.stats.nocentre
+        stats.maxiter  += result.stats.maxiter
+        stats.miniter  += result.stats.miniter
+        stats.lowsnr   += result.stats.lowsnr
+        stats.ok       += result.stats.ok
+        stats.notright += result.stats.notright
+
+    return SerialResult(database=database, discarded=discarded, stats=stats)

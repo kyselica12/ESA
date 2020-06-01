@@ -13,7 +13,6 @@ CENTRE_LIMIT = 0
 class Serial:
 
     def __init__(self, args, image, log_file=""):
-        print("EEEj")
         self.args = args
         self.log_file = log_file
         self.image = image
@@ -27,19 +26,9 @@ class Serial:
                 print(msg, end='', file=lf)
 
     def clear_statistics(self):
-        self.started = 0
-        self.nulldata = 0
-        self.notenough = 0
-        self.nocentre = 0
-        self.maxiter = 0
-        self.miniter = 0
-        self.lowsnr = 0
-        self.ok = 0
-        self.notbright = 0
-        self.notright = 0
+        self.stats = Stats()
 
     def execute(self, index):
-        print("makam......")
         self.clear_statistics()
 
         x_start, x_end, y_start, y_end = index
@@ -58,11 +47,7 @@ class Serial:
             Ys = np.floor(np.arange(y_start + B, y_end - B, 2*B )).astype(int)
 
             for y in Ys:
-                print('aasd')
                 for x in Xs:
-                    if y == 810 and x == 714:
-                        print('debug')
-                    # print('One step')
                     self.perform_step(x, y)
 
         elif self.args.method == 'max':
@@ -116,24 +101,11 @@ class Serial:
 
                 self.perform_step(sumGx/sumG, sumGy/sumG)
 
-        return SerialResult(database=self.database,
-                            discarded=self.discarded,
-                            stats=Stats(started=self.started,
-                                        nulldata=self.nulldata,
-                                        notbright=self.notbright,
-                                        notenough=self.notenough,
-                                        nocentre=self.nocentre,
-                                        maxiter=self.maxiter,
-                                        miniter=self.miniter,
-                                        lowsnr=self.lowsnr,
-                                        ok=self.ok,
-                                        notright=self.notright
-                                        )
-                            )
+        return SerialResult(database=self.database, discarded=self.discarded, stats=self.stats)
 
     def perform_step(self, x,y):
-        
-        self.started += 1
+
+        self.stats.started += 1
 
         wrapper = CentroidSimpleWrapper(image=self.image, 
                                         init_x=x, 
@@ -157,16 +129,13 @@ class Serial:
         
 
         if current.code == 0:
-            return Step(code=0,
-                        x=current.result[0],
-                        y=current.result[1]
-                        )
+            return Step(code=0, x=current.result[0], y=current.result[1])
         else:
-            return Step(code=1,x=-1,y=-1)
+            return Step(code=1, x=-1, y=-1)
          
     def update_statistics(self,x,y, current):
         if current.code == 0:
-            self.ok += 1
+            self.stats.ok += 1
 
             ud_code = self.database.update(current.result, CENTRE_LIMIT)
 
@@ -184,25 +153,25 @@ class Serial:
                     self.log('\n')
         
         elif current.code == 1:
-            self.nulldata += 1
+            self.stats.nulldata += 1
         
         elif current.code == 2:
-            self.notenough += 1
+            self.stats.notenough += 1
 
         elif current.code == 3:
-            self.notbright += 1
+            self.stats.notbright += 1
 
         elif current.code == 4:
-            self.nocentre += 1
+            self.stats.nocentre += 1
 
         elif current.code == 5:
-            self.maxiter += 1
+            self.stats.maxiter += 1
 
         elif current.code == 6:
-            self.miniter += 1
+            self.stats.miniter += 1
 
         elif current.code == 7:
-            self.lowsnr += 1
+            self.stats.lowsnr += 1
 
         elif current.code == 8:
-            self.notright += 1
+            self.stats.notright += 1

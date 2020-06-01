@@ -3,6 +3,7 @@ import run_serial
 from  copy import deepcopy
 import run_functions
 import multiprocessing
+from run_functions import combine_results
 
 
 def execute_serial(arg):
@@ -52,5 +53,7 @@ class Parallel:
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
             results = [ result for result in executor.map(execute_serial, args)]
+
+        result = combine_results(results)
 
         return result
