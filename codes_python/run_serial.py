@@ -53,11 +53,12 @@ class Serial:
         elif self.args.method == 'max':
             pixels = np.where(self.image > self.args.start_iter)
 
-            Xs = pixels[0]
-            Ys = pixels[1]
+            Xs = pixels[1]
+            Ys = pixels[0]
 
-            Xs = Xs[np.logical_and(Xs > x_start, Xs < x_end)]
-            Ys = Ys[np.logical_and(Ys > y_start, Ys < y_end)]
+            good = (Xs > x_start) * (Xs < x_end) * (Ys > y_start) * (Ys < y_end)
+            Xs = Xs[good]
+            Ys = Ys[good]
 
             while len(Xs) > 0:
                 step = self.perform_step(Xs[0], Ys[0])
@@ -77,23 +78,26 @@ class Serial:
         elif self.args.method == 'cluster':
             pixels = np.where(self.image > self.args.start_iter)
 
-            Xs = pixels[0]
-            Ys = pixels[1]
+            Xs = pixels[1]
+            Ys = pixels[0]
 
-            Xs = Xs[np.logical_and(Xs > x_start, Xs < x_end)]
-            Ys = Ys[np.logical_and(Ys > y_start, Ys < y_end)]
+            good = (Xs > x_start) * (Xs < x_end) * (Ys > y_start) * (Ys < y_end)
+            Xs = Xs[good]
+            Ys = Ys[good]
 
-            pixels = pd.DataFrame( pixels[Xs, Ys] )
+            pixels = np.zeros((len(Xs), 2))
+            pixels[:,0] = Ys
+            pixels[:,1] = Xs
             thresh = np.sqrt(A**2 + B**2)
 
             clusters = hcluster.fclusterdata(pixels, thresh, criterion='distance')
 
             for i in range(1, np.max(clusters)+1):
                 XY = pixels[clusters == i]
-                X = XY[:,0]
-                Y = XY[:,1]
+                X = XY[:,1].astype(int)
+                Y = XY[:,0].astype(int)
 
-                Z = np.arraY([self.image[X[j], Y[j]] for j in range(len(XY))])
+                Z = self.image[Y, X]
 
                 sumG = np.sum(Z)
                 sumGx = np.sum(Z*(X-0.5))

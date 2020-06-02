@@ -47,6 +47,18 @@ class SerialResult:
     discarded: Database
     stats: Stats
 
+    def print_stats(self):
+        print(f'Started iterations: {self.stats.started}')
+        print(f'   OK             : {self.stats.ok}')
+        print(f'   Null data      : {self.stats.nulldata}')
+        print(f'   No data        : {self.stats.notenough}')
+        print(f'   No bright      : {self.stats.notbright}')
+        print(f'   No centre      : {self.stats.nocentre}')
+        print(f'   Max iter       : {self.stats.maxiter}')
+        print(f'   Min iter       : {self.stats.miniter}')
+        print(f'   Low SNR        : {self.stats.lowsnr}')
+        print(f'   Not right      : {self.stats.notright}')
+
 @dataclass
 class GravityCentreResult:
     center: Tuple
