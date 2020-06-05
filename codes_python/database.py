@@ -43,3 +43,18 @@ class Database:
         new.data = np.concatenate((self.data, other.data))
         
         return new
+
+    def write_tsv(self, filename):
+
+        ordered = self.data[np.argsort(self.data[:,0])]
+
+        filename = filename + '.tsv'
+        with open(filename, 'w') as f:
+            print('\t'.join(self.col_names), file=f)
+            for line in ordered:
+                print('\t'.join(list(map(str, line))), file=f)
+
+    def size(self):
+        return len(self.data)
+
+

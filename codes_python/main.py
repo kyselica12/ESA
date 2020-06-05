@@ -2,7 +2,9 @@
 import numpy as np
 
 from run_preamble import import_packages
+from time import time
 
+t_init = time()
 import_packages()
 
 from astropy.io import fits
@@ -12,17 +14,19 @@ import run_functions
 import run_call
 import run_parallel
 import run_serial
-from time import time
+import report
 
 args = run_options.read_arguments()  # parse arguments
 run_call.save_call(args)  # writes call arguments to file
 
+t_load = time()
 image = fits.getdata(args.input)
 print('Image loaded')
 
 # switch X is not neede because in python dimensions are in proper order
 ALG_PARS = {"CENTRE_LIMIT": 0, "MATCH_LIMIT": 1}
 
+t_cmp = time()
 if args.parallel == 1:  # run serial
     log_file = ''
     if args.verbose == 1:
@@ -33,16 +37,30 @@ if args.parallel == 1:  # run serial
     process = run_serial.Serial(args, image, log_file='log1.log')
     start = time()
     result = process.execute(index=(0, image.shape[0] - 1, 0, image.shape[1] - 1))
-    end = time() - start
 else:
     process = run_parallel.Parallel(args, image)
     start = time()
     result = process.execute()
-    end = time() - start
 
 result.print_stats()
-if len(result.database) == 0:
+if result.database.size() == 0:
     print('\nNo stars found!')
+else:
+    t_wrt = time()
+    result.database.write_tsv(f'{args.output}_s')
+    result.discarded.write_tsv(f'{args.output}_discarded')
 
-print(f'\nSUCESS in {end}')
+    report.generate_report(result.database, image, args)
+
+    t_end = time()
+
+    print("\n------- Time ---------\n")
+    print(f'Init time      : {t_load-t_init:.4f} sec')
+    print(f'Loading time   : {t_cmp-t_load:.4f} sec')
+    print(f'Computing time : {t_wrt-t_cmp:.4f} sec')
+    print(f'Write time     : {t_end - t_wrt:.4f} sec')
+
+
+
+
 

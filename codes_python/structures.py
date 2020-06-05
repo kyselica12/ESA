@@ -48,6 +48,7 @@ class SerialResult:
     stats: Stats
 
     def print_stats(self):
+        print('\n-------- Stats ------------\n')
         print(f'Started iterations: {self.stats.started}')
         print(f'   OK             : {self.stats.ok}')
         print(f'   Null data      : {self.stats.nulldata}')

@@ -279,3 +279,265 @@ python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 
 
 python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
 
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+
+python3 ./main.py -F 14068A_R_1-001_d_m.fit -A 6.0 -B 6.0 -C 0.0 -N 10.0 -L 1.0 -D 0.001 -X 22 -M 20 -I 2 -S 3 -Z 3 -O 14068A_R_1-001_d_m -Y 25.0 -G 10.0 -H 1 -K cluster -P 1 -V 0
+

@@ -21,9 +21,7 @@ class Parallel:
         self.no_cores = self.parallel**2
 
     def execute(self):
-        
 
-        
         lenX = self.image.shape[0] // self.parallel
         lenY = self.image.shape[1] // self.parallel
 

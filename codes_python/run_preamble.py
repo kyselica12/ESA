@@ -13,11 +13,11 @@ def test_install_package(package):
         print(f'Package {package} installed')
 
 
+PACKAGES = ['numpy', 'astropy','matplotlib', 'concurrent', 'scipy']
+
 def import_packages():
-    test_install_package('numpy')
-    test_install_package('astropy')
-    test_install_package('matplotlib')
-    test_install_package('argparse')
-    test_install_package('concurrent')
-    test_install_package('scipy')
-    test_install_package('dataclass')
+
+    print('---------- Loading packages --------- \n')
+    for p in PACKAGES:
+        test_install_package(p)
+    print()
