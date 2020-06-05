@@ -13,7 +13,7 @@ def test_install_package(package):
         print(f'Package {package} installed')
 
 
-PACKAGES = ['numpy', 'astropy','matplotlib', 'concurrent', 'scipy']
+PACKAGES = ['numpy', 'astropy','matplotlib', 'concurrent', 'scipy', 'seaborn']
 
 def import_packages():
 
