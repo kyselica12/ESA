@@ -50,6 +50,8 @@ else:
     result.database.write_tsv(f'{args.output}_s')
     result.discarded.write_tsv(f'{args.output}_discarded')
 
+    print(np.sum(result.database.data[:,3]))
+
     report.generate_report(result.database, image, args)
 
     t_end = time()

@@ -60,6 +60,10 @@ class Serial:
             Xs = Xs[good]
             Ys = Ys[good]
 
+            # idx = np.argsort(Xs)
+            # Xs = Xs[idx]
+            # Ys = Ys[idx]
+
             while len(Xs) > 0:
                 step = self.perform_step(Xs[0], Ys[0])
                 
