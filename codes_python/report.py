@@ -6,11 +6,12 @@ import scipy
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib
 from scipy.spatial import distance
+from structures import Report
 
 MATCH_LIMIT = 1
 
-def parse_cat(filename):
 
+def parse_cat(filename):
     points = []
 
     with open(filename, 'r') as f:
@@ -19,15 +20,13 @@ def parse_cat(filename):
         for line in lines[4:]:
             data = line.split()
             if len(data) == 17:
-                points.append([float(data[11])-1, float(data[12])-1,float(data[13])])
+                points.append([float(data[11]) - 1, float(data[12]) - 1, float(data[13])])
                 # idx 11: x pos, idx 12: y pos, idx 13: flux
 
     return np.array(points)
 
 
-
-def matchObject(database, params):
-
+def match_objects(database, params):
     if '.cat' == params.model[-4:]:
         model = parse_cat(params.model)
     else:
@@ -35,6 +34,9 @@ def matchObject(database, params):
 
     found_points = database.data[:, 0:2]
     model_points = model[:, 0:2]
+
+    # idx = np.argsort(found_points[:,0])
+    # found_points = found_points[idx]
 
     dist = distance.cdist(found_points, model_points, 'euclidean')
 
@@ -81,9 +83,7 @@ def matchObject(database, params):
     return model, np.array(matched), np.array(unmatched)
 
 
-
 def draw_picture(database, image, args, model):
-
     def colorFader(mix=0):  # fade (linear interpolate) from color c1 (at mix=0) to c2 (mix=1)
         c1 = 'yellow'
         c2 = 'red'
@@ -96,9 +96,9 @@ def draw_picture(database, image, args, model):
 
     ax.imshow(image, cmap='gray', vmin=0, vmax=10)
 
-    titles =('SNR', 'SNR', 'SNR', 'ITER', 'SUM', 'MEAN', 'VAR', 'STD', 'SKEW', 'KURT', 'BCKG')
-    title = titles[args.color-1]
-    col_data = database.data[:, args.color-1]
+    titles = ('SNR', 'SNR', 'SNR', 'ITER', 'SUM', 'MEAN', 'VAR', 'STD', 'SKEW', 'KURT', 'BCKG')
+    title = titles[args.color - 1]
+    col_data = database.data[:, args.color - 1]
 
     if model is not None:
         for i, data in enumerate(model[:, 0:2]):
@@ -109,11 +109,11 @@ def draw_picture(database, image, args, model):
             rec.set_transform(t)
             ax.add_patch(rec)
 
-
-    for i, data in enumerate(database.data[:,0:2]):
+    for i, data in enumerate(database.data[:, 0:2]):
         color = colorFader((col_data[i] - np.min(col_data)) / (np.max(col_data) - np.min(col_data)))
         x, y = data
-        rec = matplotlib.patches.Rectangle((x-args.height/2, y-args.width/2), args.width, args.height, edgecolor=color, facecolor="none")
+        rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width, args.height,
+                                           edgecolor=color, facecolor="none")
         t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
         rec.set_transform(t)
         ax.add_patch(rec)
@@ -131,11 +131,10 @@ def draw_picture(database, image, args, model):
     return f1, f2
 
 
-def create_hist(data,title, ax, xlabel=''):
-
-    sns.distplot(data,bins=50, hist=True, ax=ax)
-    sns.distplot(data,bins=50, hist=False, kde=True, norm_hist=False, label='density', ax=ax)
-    sns.distplot(data,bins=50, fit=scipy.stats.norm, kde=False, hist=False,norm_hist=False, ax=ax, label='normal')
+def create_hist(data, title, ax, xlabel=''):
+    sns.distplot(data, bins=50, hist=True, ax=ax)
+    sns.distplot(data, bins=50, hist=False, kde=True, norm_hist=False, label='density', ax=ax)
+    sns.distplot(data, bins=50, fit=scipy.stats.norm, kde=False, hist=False, norm_hist=False, ax=ax, label='normal')
     ax.set_title(title)
     ax.set_ylabel('Density')
     ax.set_xlabel(xlabel)
@@ -145,7 +144,7 @@ def create_hist(data,title, ax, xlabel=''):
 def iter_hist(database):
     fig = plt.figure()
 
-    axs = fig.subplots(2,2)
+    axs = fig.subplots(2, 2)
 
     sns.distplot(database.data[:, 3], bins=50, hist=True, ax=axs[0][1])
 
@@ -159,18 +158,18 @@ def iter_hist(database):
 
     return fig
 
-def model_hist(database, model, matched):
 
+def model_hist(database, model, matched):
     fig = plt.figure()
     axs = fig.subplots(2, 2)
 
-    X = database.data[matched[:,0], 0] - model[matched[:,1], 0]
+    X = database.data[matched[:, 0], 0] - model[matched[:, 1], 0]
     create_hist(X, title=f'X axis differences {np.mean(X):.4f}', ax=axs[0][0], xlabel='X difference')
 
-    Y = database.data[matched[:,0], 1] - model[matched[:,1], 1]
+    Y = database.data[matched[:, 0], 1] - model[matched[:, 1], 1]
     create_hist(Y, title=f'Y axis differences {np.mean(Y):.4f}', ax=axs[0][1], xlabel='Y difference')
 
-    E = np.sqrt(X**2 + Y**2)
+    E = np.sqrt(X ** 2 + Y ** 2)
     create_hist(E, title='Euclidean differences', ax=axs[1][0], xlabel='Distances')
     create_hist(np.log(E), title='Log Euclidean differences', ax=axs[1][1], xlabel='Log distances')
 
@@ -178,23 +177,51 @@ def model_hist(database, model, matched):
 
     return X, Y, E, fig
 
-def rms(param):
-    pass
+
+def rms(X):
+    return np.sqrt(np.sum(X**2)/len(X))
 
 
 def error_scat(X, Y):
+    fig = plt.figure()
+    ax = fig.subplots(1)
+
+    # ax.plot(X, Y, 'o', color='black')
+    ax.scatter(X, Y, s=50, facecolors='none', edgecolors='black')
+    # ax.hlines(np.mean(Y), colors='r', linestyles='dashed')
+    ax.axvline(np.mean(X), color="r", linestyle='dashed')
+    ax.axhline(np.mean(Y), color="r", linestyle='dashed')
+    ax.set_title('Error points')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+
+    return fig
+
+
+def brightness_scat(database, model, matched):
 
     fig = plt.figure()
     ax = fig.subplots(1)
 
-    ax.plot(X, Y, 'o', color='black')
+    X = database.data[matched[:, 0], 4]
+    Y = model[matched[:, 1], 2]
+    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(X, Y)
+
+    ax.scatter(X, Y, s=30, facecolors='none', edgecolors='black' )
+
+    t = np.linspace(np.min(X),np.max(X))
+
+    ax.plot(t, t*slope + intercept, color='red', label=f'model = {slope:.3f}*SCA + ( {intercept:.4f} )')
+    ax.legend()
+
+    ax.set_title('Total brightness')
 
     return fig
 
-def generate_report(database, image, args):
 
+def generate_report(database, image, args):
     if args.model is not None:
-        model, matched, unmatched = matchObject(database, args)
+        model, matched, unmatched = match_objects(database, args)
     else:
         model = None
         matched = np.array([])
@@ -210,22 +237,24 @@ def generate_report(database, image, args):
     pp.savefig(f_heat_map)
     pp.savefig(f_hist)
 
+    X, Y = None, None
     if model is not None:
         X, Y, E, f_model = model_hist(database, model, matched)
         f_error = error_scat(X, Y)
 
+        f_brightness = brightness_scat(database, model, matched)
+
         pp.savefig(f_model)
         pp.savefig(f_error)
+        pp.savefig(f_brightness)
 
     pp.close()
+    return Report(matched=matched,
+                  unmatched=unmatched,
+                  model=model,
+                  X=np.mean(X),
+                  Y=np.mean(Y),
+                  rms_x=rms(X),
+                  rms_y=rms(Y)
+                  )
 
-
-
-    # XY = model_hist(database, model, matched)
-    #
-    # #invisible(dev.off()
-    #
-    # if XY is None:
-    #     XY = ([0],[0])
-    #
-    # return matched, unmatched, model, np.mean(XY[0]), np.mean(XY[1]), rms(XY[0]), rms(XY[1])

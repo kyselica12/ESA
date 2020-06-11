@@ -67,3 +67,41 @@ class GravityCentreResult:
     Y_pixels: np.ndarray
     Z_pixels: np.ndarray
 
+@dataclass
+class Report:
+    matched: np.ndarray
+    unmatched: np.ndarray
+    model: np.ndarray
+    X: float
+    Y: float
+    rms_x: float
+    rms_y: float
+
+    def print(self):
+
+        if self.model is None:
+            print(f'Matched starts: 0 out of 0')
+        else:
+            print(f'Matched starts: {len(self.matched)} out of {len(self.model)}')
+            print(f'\taverage error X: {self.X:.4f}')
+            print(f'\taverage error Y: {self.Y:.4f}')
+            print(f'\tRMS X: {self.rms_x:.4f}')
+            print(f'\tRMS Y: {self.rms_y:.4f}')
+        print()
+
+    def write_tsv(self, filename, database):
+
+        matched_database = database.data[self.matched[:, 0]][:,[0,1,4]]
+        matched_model = self.model[self.matched[:, 1]]
+        data = np.concatenate((matched_database, matched_model), axis=1)
+
+        d = Database(init_value=0, nrows=0, ncols=0, col_names=None)
+        d.data = data
+        d.write_tsv(filename+'_matched')
+
+
+
+
+
+
+

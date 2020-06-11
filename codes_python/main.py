@@ -52,7 +52,14 @@ else:
 
     print(np.sum(result.database.data[:,3]))
 
-    report.generate_report(result.database, image, args)
+
+    print(f'\nIdentified stars: {len(result.database.data)}')
+    print(f'\nDiscarded stars: {len(result.discarded.data)}')
+
+    report_result = report.generate_report(result.database, image, args)
+
+    report_result.print()
+    report_result.write_tsv(args.output, result.database)
 
     t_end = time()
 

@@ -5,7 +5,7 @@ class Database:
 
     def __init__(self, init_value, nrows, ncols, col_names):
 
-        self.data = np.zeros((nrows, ncols))
+        self.data = np.ones((nrows, ncols)) * init_value
         self.nrows = nrows
         self.ncols = ncols
 
@@ -50,7 +50,8 @@ class Database:
 
         filename = filename + '.tsv'
         with open(filename, 'w') as f:
-            print('\t'.join(self.col_names), file=f)
+            if self.col_names is not None:
+                print('\t'.join(self.col_names), file=f)
             for line in ordered:
                 print('\t'.join(list(map(str, line))), file=f)
 

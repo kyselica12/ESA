@@ -224,7 +224,7 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             log.append([current.center[0], current.center[1], 0, iter, np.sum(current.Z_pixels), mu, v, s, sk, ku])
 
-        return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple.X_pixels), mu, v,s,sk,ku, background],
+        return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels), mu, v,s,sk,ku, background],
                               noise=background,
                               log=log,
                               message='OK',
