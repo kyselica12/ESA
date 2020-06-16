@@ -175,7 +175,8 @@ class CentroidSimpleWrapper:
             for _ in range(self.fine_iter):
                 current = find_gravity_centre(grav_simple.center[0], grav_simple.center[1], self.A, self.B, self.alpha, self.image, self.pix_prop, background)
                 cent_x, cent_y = current.center
-            # ??? difference in R
+
+            # FIXME difference in R
 
             grav_simple = deepcopy(current)
             cent_x, cent_y = grav_simple.center
