@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from scipy.stats import gaussian_kde
 import numpy as np
 import seaborn as sns
@@ -84,51 +85,41 @@ def match_objects(database, params):
 
 
 def draw_picture(database, image, args, model):
-    def colorFader(mix=0):  # fade (linear interpolate) from color c1 (at mix=0) to c2 (mix=1)
-        c1 = 'yellow'
-        c2 = 'red'
-        c1 = np.array(matplotlib.colors.to_rgb(c1))
-        c2 = np.array(matplotlib.colors.to_rgb(c2))
-        return matplotlib.colors.to_hex((1 - mix) * c1 + mix * c2)
 
-    f1, ax = plt.subplots(1)
-    f1.set_size_inches(7, 7)
+    fig, ax = plt.subplots(1)
+    fig.set_size_inches(8.5, 8)
 
-    ax.imshow(image, cmap='gray', vmin=0, vmax=10)
+    ax.imshow(image, cmap='gray', origin='lower', vmin=0, vmax=10)
 
     titles = ('SNR', 'SNR', 'SNR', 'ITER', 'SUM', 'MEAN', 'VAR', 'STD', 'SKEW', 'KURT', 'BCKG')
     title = titles[args.color - 1]
     col_data = database.data[:, args.color - 1]
 
+    cmap = plt.get_cmap('autumn')
+    norm = mpl.colors.Normalize(vmin=np.min(col_data), vmax=np.max(col_data))
+
+    fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap),
+                 ax=ax, label='SNR')
+
     if model is not None:
         for i, data in enumerate(model[:, 0:2]):
             x, y = data
-            rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width, args.height,
-                                               edgecolor='grey', facecolor="none")
+            rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width+2, args.height+2,
+                                               edgecolor='white', facecolor="none", linewidth=0.3)
             t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
             rec.set_transform(t)
             ax.add_patch(rec)
 
     for i, data in enumerate(database.data[:, 0:2]):
-        color = colorFader((col_data[i] - np.min(col_data)) / (np.max(col_data) - np.min(col_data)))
+        color = cmap(norm(col_data[i]))
         x, y = data
-        rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width, args.height,
-                                           edgecolor=color, facecolor="none")
+        rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width+2, args.height+2,
+                                           edgecolor=color, facecolor="none", linewidth=0.3, linestyle='dotted')
         t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
         rec.set_transform(t)
         ax.add_patch(rec)
 
-    f2, ax = plt.subplots(1)
-    f2.set_size_inches(5, 1.5)
-
-    for x in range(500):
-        ax.axvline(x, color=colorFader(x / 500), linewidth=4, ymax=0.1)
-    ax.axis('off')
-    ax.set_title(title)
-    ttl = ax.title
-    ttl.set_position([0.5, 0.5])
-
-    return f1, f2
+    return fig
 
 
 def create_hist(data, title, ax, xlabel=''):
@@ -154,7 +145,8 @@ def iter_hist(database):
     create_hist(database.data[:, 8], title='skew', ax=axs[1][0])
     create_hist(database.data[:, 9], title='kurt', ax=axs[1][1])
 
-    fig.set_size_inches(7.5, 7, forward=True)
+    fig.set_size_inches(8.5, 8, forward=True)
+    fig.subplots_adjust(hspace=0.3, wspace=0.3)
 
     return fig
 
@@ -173,7 +165,8 @@ def model_hist(database, model, matched):
     create_hist(E, title='Euclidean differences', ax=axs[1][0], xlabel='Distances')
     create_hist(np.log(E), title='Log Euclidean differences', ax=axs[1][1], xlabel='Log distances')
 
-    fig.set_size_inches(7.5, 9, forward=True)
+    fig.set_size_inches(8.5, 8, forward=True)
+    fig.subplots_adjust(hspace=0.5)
 
     return X, Y, E, fig
 
@@ -184,6 +177,7 @@ def rms(X):
 
 def error_scat(X, Y):
     fig = plt.figure()
+    fig.set_size_inches(8.5, 8, forward=True)
     ax = fig.subplots(1)
 
     # ax.plot(X, Y, 'o', color='black')
@@ -201,6 +195,7 @@ def error_scat(X, Y):
 def brightness_scat(database, model, matched):
 
     fig = plt.figure()
+    fig.set_size_inches(8.5, 8, forward=True)
     ax = fig.subplots(1)
 
     X = database.data[matched[:, 0], 4]
@@ -213,6 +208,8 @@ def brightness_scat(database, model, matched):
 
     ax.plot(t, t*slope + intercept, color='red', label=f'model = {slope:.3f}*SCA + ( {intercept:.4f} )')
     ax.legend()
+    ax.set_ylabel('Model')
+    ax.set_xlabel('SCA')
 
     ax.set_title('Total brightness')
 
@@ -229,12 +226,11 @@ def generate_report(database, image, args):
 
     # iter_hist(database)
 
-    f_image, f_heat_map = draw_picture(database, image, args, model)
+    f_image = draw_picture(database, image, args, model)
     f_hist = iter_hist(database)
 
     pp = PdfPages(f'{args.output}.pdf')
     pp.savefig(f_image)
-    pp.savefig(f_heat_map)
     pp.savefig(f_hist)
 
     X, Y = None, None

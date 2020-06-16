@@ -54,7 +54,7 @@ else:
 
 
     print(f'\nIdentified stars: {len(result.database.data)}')
-    print(f'\nDiscarded stars: {len(result.discarded.data)}')
+    print(f'Discarded stars: {len(result.discarded.data)}')
 
     report_result = report.generate_report(result.database, image, args)
 
