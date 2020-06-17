@@ -1,18 +1,66 @@
 from collections import namedtuple
 from dataclasses import dataclass
 from typing import List, Tuple
-from database import Database
 import numpy as np
 
 
+class Database:
 
-# WrapperResult = namedtuple('WrapperResult', 'result noise log message code')
-# Step = namedtuple('Step', 'code x y')
+    def __init__(self, init_value, nrows, ncols, col_names):
 
-# Stats = namedtuple('Stat', 'started nulldata notenough notbright nocentre maxiter miniter lowsnr ok notright')
+        self.data = np.ones((nrows, ncols)) * init_value
+        self.nrows = nrows
+        self.ncols = ncols
 
-# SerialResult = namedtuple('SerialRestul', 'database discarded stats')
+        self.col_names = col_names
 
+    def update(self, current, thrs):
+
+        if self.nrows == 0:
+            self.data = np.concatenate((self.data, [current]))
+            return -1
+
+        dist = np.array([np.sqrt((self.data[i][0] - current[0]) ** 2 + (self.data[i][1] - current[1]) ** 2) for i in
+                         range(self.nrows)])
+
+        close_rows = dist < thrs
+
+        if np.sum(close_rows) == 0:
+            self.data = np.concatenate((self.data, [current]))
+            return 0
+
+        d = np.concatenate((self.data[close_rows], [current]))
+        id = np.argmax(d[:, 3])
+        best = d[id]
+
+        not_close_rows = np.logical_not(close_rows)
+        self.data = np.concatenate((self.data[not_close_rows], [best]))
+
+        return 1
+
+    def add(self, data):
+        self.data = np.concatenate((self.data, [data]))
+
+    def concatenate(self, other):
+
+        new = Database(0, self.nrows, self.ncols, self.col_names)
+        new.data = np.concatenate((self.data, other.data))
+
+        return new
+
+    def write_tsv(self, filename):
+
+        ordered = self.data[np.argsort(self.data[:, 0])]
+
+        filename = filename + '.tsv'
+        with open(filename, 'w') as f:
+            if self.col_names is not None:
+                print('\t'.join(self.col_names), file=f)
+            for line in ordered:
+                print('\t'.join(list(map(str, line))), file=f)
+
+    def size(self):
+        return len(self.data)
 
 @dataclass
 class WrapperResult:
@@ -98,10 +146,5 @@ class Report:
         d = Database(init_value=0, nrows=0, ncols=0, col_names=None)
         d.data = data
         d.write_tsv(filename+'_matched')
-
-
-
-
-
 
 

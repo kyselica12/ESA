@@ -7,7 +7,7 @@ import scipy
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib
 from scipy.spatial import distance
-from structures import Report
+from utils.structures import Report
 
 MATCH_LIMIT = 1
 

@@ -1,6 +1,6 @@
-from getPixels import get_pixels
+from processing.getPixels import get_pixels
 import numpy as np
-from structures import GravityCentreResult
+from utils.structures import GravityCentreResult
 
 
 def find_gravity_centre(cent_x, cent_y, A, B, alpha, image, pix_prop, bckg=0):
@@ -62,6 +62,6 @@ if __name__ == "__main__":
 
     from astropy.io import fits
 
-    image = fits.getdata('14068A_R_1-001_d_m.fit')
+    image = fits.getdata('../resources/14068A_R_1-001_d_m.fit')
 
     res = find_gravity_centre(init_x, init_y, A, B, alpha, image, pixlim)

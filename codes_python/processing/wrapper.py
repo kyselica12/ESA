@@ -1,9 +1,8 @@
-from run_functions import remove_negative
-from getPixels import get_pixels
-from getGratvityCentre import find_gravity_centre
-import numpy as np
+from processing.run_functions import remove_negative
+from processing.getPixels import get_pixels
+from processing.getGratvityCentre import find_gravity_centre
 from copy import deepcopy
-from structures import *
+from utils.structures import *
 
 
 class CentroidSimpleWrapper:

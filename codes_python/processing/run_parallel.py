@@ -1,7 +1,7 @@
 import concurrent
-import run_serial
+from processing import run_serial
 from  copy import deepcopy
-from run_functions import combine_results
+from processing.run_functions import combine_results
 
 
 def execute_serial(arg):

@@ -1,12 +1,11 @@
-import numpy as np
-from database import *
-import pandas as pd
 import scipy.cluster.hierarchy as hcluster
-from wrapper import CentroidSimpleWrapper
-from structures import *
+from processing.wrapper import CentroidSimpleWrapper
+from utils.structures import *
 
 
 # ??? toto treba niekde vhodne umiestnit je to global povodne
+from utils.structures import Database
+
 CENTRE_LIMIT = 0
 
 
@@ -108,6 +107,9 @@ class Serial:
                 sumGy = np.sum(Z*(Y-0.5))
 
                 self.perform_step(sumGx/sumG, sumGy/sumG)
+
+        elif self.args.method == "sobel":
+            return None
 
         return SerialResult(database=self.database, discarded=self.discarded, stats=self.stats)
 

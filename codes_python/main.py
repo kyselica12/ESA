@@ -1,7 +1,7 @@
 # import external modules
 import numpy as np
 
-from run_preamble import import_packages
+from utils.run_preamble import import_packages
 from time import time
 
 t_init = time()
@@ -9,12 +9,8 @@ import_packages()
 
 from astropy.io import fits
 # import internal modules
-import run_options
-import run_functions
-import run_call
-import run_parallel
-import run_serial
-import report
+from utils import run_call, report, run_options
+from processing import run_serial, run_parallel
 
 args = run_options.read_arguments()  # parse arguments
 run_call.save_call(args)  # writes call arguments to file
