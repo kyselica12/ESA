@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from scipy.stats import gaussian_kde
 import numpy as np
-import seaborn as sns
 import scipy
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib
