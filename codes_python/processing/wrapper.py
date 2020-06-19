@@ -1,4 +1,4 @@
-from processing.run_functions import remove_negative
+from utils.run_functions import remove_negative
 from processing.getPixels import get_pixels
 from processing.getGratvityCentre import find_gravity_centre
 from copy import deepcopy

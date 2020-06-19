@@ -1,5 +1,4 @@
 # import external modules
-import numpy as np
 
 from utils.run_preamble import import_packages
 from time import time
@@ -7,6 +6,7 @@ from time import time
 t_init = time()
 import_packages()
 
+import numpy as np
 from astropy.io import fits
 # import internal modules
 from utils import run_call, report, run_options
@@ -45,9 +45,6 @@ else:
     t_wrt = time()
     result.database.write_tsv(f'{args.output}_s')
     result.discarded.write_tsv(f'{args.output}_discarded')
-
-    print(np.sum(result.database.data[:,3]))
-
 
     print(f'\nIdentified stars: {len(result.database.data)}')
     print(f'Discarded stars: {len(result.discarded.data)}')

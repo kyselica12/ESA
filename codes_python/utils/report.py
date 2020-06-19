@@ -7,6 +7,8 @@ import scipy
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib
 from scipy.spatial import distance
+
+from utils.run_functions import rms
 from utils.structures import Report
 
 MATCH_LIMIT = 1
@@ -169,10 +171,6 @@ def model_hist(database, model, matched):
     fig.subplots_adjust(hspace=0.5)
 
     return X, Y, E, fig
-
-
-def rms(X):
-    return np.sqrt(np.sum(X**2)/len(X))
 
 
 def error_scat(X, Y):
