@@ -7,6 +7,9 @@ import scipy
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib
 from scipy.spatial import distance
+from scipy.stats import norm, gaussian_kde
+
+from utils.run_functions import rms
 from utils.structures import Report
 
 MATCH_LIMIT = 1
@@ -122,12 +125,33 @@ def draw_picture(database, image, args, model):
     return fig
 
 
-def create_hist(data, title, ax, xlabel=''):
-    sns.distplot(data, bins=50, hist=True, ax=ax)
-    sns.distplot(data, bins=50, hist=False, kde=True, norm_hist=False, label='density', ax=ax)
-    sns.distplot(data, bins=50, fit=scipy.stats.norm, kde=False, hist=False, norm_hist=False, ax=ax, label='normal')
+def create_hist(data, title, ax, xlabel='', ylabel='', plot_normal=True):
+
+    mu, std = norm.fit(data)
+
+    # Plot the histogram.
+    ax.hist(data, bins=50, density=True, alpha=0.6, color='skyblue')
+
+    # Plot the PDF.
+    ax.get_xlim()
+    xmin, xmax = ax.get_xlim()
+
+    offset = (xmax - xmin)*0.2
+    xmax += offset
+    xmin -= offset
+    x = np.linspace(xmin, xmax, 100)
+
+    if plot_normal:
+        p = norm.pdf(x, mu, std)
+        ax.plot(x, p, 'k', linewidth=2, label='normal', color='black')
+
+    density = gaussian_kde(data)
+    density.covariance_factor = lambda: .5
+    density._compute_covariance()
+    ax.plot(x, density(x), label='density', color='orange')
+
     ax.set_title(title)
-    ax.set_ylabel('Density')
+    ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
     ax.legend()
 
@@ -137,13 +161,13 @@ def iter_hist(database):
 
     axs = fig.subplots(2, 2)
 
-    sns.distplot(database.data[:, 3], bins=50, hist=True, ax=axs[0][1])
+    create_hist(database.data[:, 3], title='iter', ax=axs[0][1], plot_normal=False)
 
-    axs[0][1].set_title("iter")
+    # axs[0][1].set_title("iter")
 
-    create_hist(database.data[:, 2], title='SNR', ax=axs[0][0])
-    create_hist(database.data[:, 8], title='skew', ax=axs[1][0])
-    create_hist(database.data[:, 9], title='kurt', ax=axs[1][1])
+    create_hist(database.data[:, 2], title='SNR', ax=axs[0][0], ylabel='Density', plot_normal=True)
+    create_hist(database.data[:, 8], title='skew', ax=axs[1][0], ylabel='Density', plot_normal=True)
+    create_hist(database.data[:, 9], title='kurt', ax=axs[1][1], ylabel='Density', plot_normal=True)
 
     fig.set_size_inches(8.5, 8, forward=True)
     fig.subplots_adjust(hspace=0.3, wspace=0.3)
@@ -169,10 +193,6 @@ def model_hist(database, model, matched):
     fig.subplots_adjust(hspace=0.5)
 
     return X, Y, E, fig
-
-
-def rms(X):
-    return np.sqrt(np.sum(X**2)/len(X))
 
 
 def error_scat(X, Y):
