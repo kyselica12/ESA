@@ -15,7 +15,7 @@ CENTRE_LIMIT = 0
 class Serial:
 
     def __init__(self, args, image, log_file=""):
-        self.args = args
+        self.args: Configuration = args
         self.log_file = log_file
         self.image = image
 
@@ -112,21 +112,19 @@ class Serial:
                 self.perform_step(sumGx/sumG, sumGy/sumG)
 
         elif self.args.method == "sobel":
-            # TODO add parameters to arguments
-            # TODO remove prints
-            print('Sobel')
+            # TODO what to do with fit header??
             image = self.image[x_start: x_end, y_start: y_end]
-            sobel_threshold = 20
-            fit_function = 'gauss'
-            number_of_iterations = 2
-            square_size = (6, 6)
+            sobel_threshold = self.args.sobel_threshold
+            fit_function = self.args.fit_function
+            number_of_iterations = self.args.bkg_iterations
+            # square_size = (self.args.width, self.args.height)
+            square_size = (5,5)
+
 
             extracted_point_clusters = sobel_extract_clusters(image, threshold=sobel_threshold)
-            print('Calculating image background...')
             background = sigma_clipper(image, iterations=number_of_iterations)
 
             output_data = []
-            print('Fitting functions to clusters...')
             for i, cluster in enumerate(extracted_point_clusters):
                 cluster.show_object_fit = False
                 cluster.show_object_fit_separate = False
@@ -136,11 +134,7 @@ class Serial:
                     params = cluster.fit_curve(function=fit_function, square_size=square_size)
                 except Exception as e:
                     continue  # suppress all Exceptions, incorrect fits are discarded
-                finally:
-                    pass
-                    # print('.', end='')
-                    # if not show_object_fit and not show_object_fit_separate:
-                    #     progressBar(i, len(extracted_point_clusters) - 1)
+
 
                 if cluster.correct_fit:
                     # print('+', end='')

@@ -62,7 +62,6 @@ class PointCluster(object):
         y0 = float(y0)
 
         res_arr = np.zeros_like(data_tuple[0])
-        print('params are: ', x0, y0,'len:', length,'width:', width, 'total_flux:', total_flux)
 
         for y_init in range(data_tuple[0].shape[0]):
             for x_init in range(data_tuple[0].shape[1]):

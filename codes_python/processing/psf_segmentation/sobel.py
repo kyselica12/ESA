@@ -20,8 +20,6 @@ def sobel_extract_clusters(image, threshold=20):
 
     joined_points = join_neigbor_points_mask(mask)
 
-    print('{} point clusters detected'.format(len(joined_points)))
-
     noise_dispersion = int( histogram_threshold( image, sigma_only=True ))
 
     clusters = []
@@ -66,7 +64,6 @@ def gaussian(x, amp, cen, wid):
     return amp * np.exp(-(x-cen)**2 / wid)
 
 def histogram_threshold(image, show=False, threshold_sigma=2, sigma_only=False):
-    print('Finding histogram threshold with {}*sigma offset to remove noise'.format(threshold_sigma))
     hist, bins = np.histogram(image.flatten(), bins=len(np.unique(image)))
 
     init_vals = [1000., 0., 1000.]

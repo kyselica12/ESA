@@ -7,9 +7,6 @@ import matplotlib.pyplot as plt
 from scipy.signal import convolve2d
 from scipy.optimize import curve_fit
 
-# from fits_control import read_fits_file, edit_fits_data
-
-from processing.psf_segmentation.decorators import print_function, time_function
 
 np.seterr(all='ignore')
 
@@ -17,7 +14,6 @@ def gaussian(x, amp, cen, wid):
     return amp * np.exp(-(x-cen)**2 / wid)
 
 def histogram_threshold(image, show=False, threshold_sigma=2, sigma_only=False):
-    print('Finding histogram threshold with {}*sigma offset to remove noise'.format(threshold_sigma))
     hist, bins = np.histogram(image.flatten(), bins=len(np.unique(image)))
 
     init_vals = [1000., 0., 1000.]

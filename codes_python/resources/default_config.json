@@ -19,5 +19,8 @@
   "method": "sweep",
   "parallel": 0,
   "verbose": 0,
-  "json_config": "resources/default_config.json"
+  "json_config": "resources/default_config.json",
+  "sobel_threshold": 20,
+  "fit_function": "gauss",
+  "bkg_iterations": 2
 }

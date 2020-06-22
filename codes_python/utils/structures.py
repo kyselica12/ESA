@@ -171,6 +171,9 @@ class Configuration:
     parallel: int
     verbose: int
     json_config: str
+    sobel_threshold: float
+    fit_function: str
+    bkg_iterations: int
 
     def to_json(self):
         return json.dumps(self.__dict__)

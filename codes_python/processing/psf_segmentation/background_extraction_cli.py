@@ -13,12 +13,8 @@ from scipy.signal import convolve2d
 import scipy.stats as st
 from scipy.signal import medfilt2d
 
-# from fits_control import read_fits_file, edit_fits_data, show_image
-# from plot3d import show_3d_data
-from processing.psf_segmentation.decorators import print_function, time_function
 
 
-@print_function('creating artificial background')
 def create_artificial_background(image):
     background = np.zeros(image.shape)
     width = image.shape[0] //2
@@ -38,12 +34,10 @@ def convolve( image, size, kernel_recipe='gaussian'):
             kernel = gauss_kernel(size)
     if kernel is None:
         raise Exception('Unknown kernel')
-    print('Applying 2d convolution')
     image = convolve2d(image, kernel, mode='same', boundary='fill')
     return image
 
 def gauss_kernel( kernlen=3, sigma=3):
-    print('Creating kernel with size : {}'.format(str(kernlen)))
     interval = (2*sigma+1.)/(kernlen)
     x = np.linspace(-sigma-interval/2., sigma+interval/2., kernlen+1)
     kern1d = np.diff(st.norm.cdf(x))
@@ -81,7 +75,6 @@ def perform_sigma_clipping(original_image, number_of_iterations=5):
         last_iter_background = estimated_background
     return preprocessed_image + estimated_background
 
-@print_function('preprocessing image')
 def image_preprocess(image):
     initial_shape = image.shape
     small_shape = round(initial_shape[0]*0.1), round(initial_shape[1]*0.1)
@@ -133,8 +126,6 @@ def fix_sizes(a1, a2):
     difference = (bigger.shape[0] - smaller.shape[0],bigger.shape[1] - smaller.shape[1])
     first = difference[0] // 2
     second = difference[1] // 2
-    print('Fixing sizes of outputs with shapes {} and {}'.format(str(bigger.shape), str(smaller.shape)))
-    print('Crop {} from edges in 1 dimension and {} in second'.format(str(first), str(second)))
     if bigger is a1:
         return a1[first:-first, second:-second], a2
     else:
@@ -169,11 +160,3 @@ if __name__ == '__main__':
     else:
         extracted_background = sigma_clipper(image)
         my_comment = "Extracted background with {} iterations".format(5)
-
-    # if args.o:
-    #     if '.' in args.o:
-    #         edit_fits_data(input_file, extracted_background, args.o, comment=my_comment)
-    #     else:
-    #         edit_fits_data(input_file, extracted_background, args.o + '.' + extension, comment=my_comment)
-    # else:
-    #     edit_fits_data(input_file, extracted_background, file_name + '_bg.'+extension, comment=my_comment)
