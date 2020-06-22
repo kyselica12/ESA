@@ -112,6 +112,8 @@ class Serial:
                 self.perform_step(sumGx/sumG, sumGy/sumG)
 
         elif self.args.method == "sobel":
+            # TODO add parameters to arguments
+            # TODO remove prints
             print('Sobel')
             image = self.image[x_start: x_end, y_start: y_end]
             sobel_threshold = 20
@@ -143,6 +145,7 @@ class Serial:
                 if cluster.correct_fit:
                     # print('+', end='')
                     output_data.append(cluster.output_data())
+                    # TODO merge output with tsv database
                     # print(cluster)
                     # self.database.add(cluster.output_data())
 

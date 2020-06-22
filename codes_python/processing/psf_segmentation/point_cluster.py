@@ -127,8 +127,8 @@ class PointCluster(object):
         except IndexError:
             raise IndexError("Border object, ignore")
 
-        if self.sobel:
-            self.noise_median = np.median(self.background_data)
+        # if self.sobel:
+        self.noise_median = np.median(self.background_data)
 
         if function == 'gauss':
             x = np.linspace(0, square_size[0]-1, square_size[0])
@@ -155,11 +155,11 @@ class PointCluster(object):
             self.x0 = round(self.low_x + abs(popt[1]),2)
             self.y0 = round(self.low_y + abs(popt[2]),2)
             if self.x0 >= self.image.shape[1] or \
-            self.y0 >= self.image.shape[0] or \
-            math.isnan(self.fwhm_x) or \
-            math.isnan(self.fwhm_y) or \
-            self.fwhm_x >= self.image.shape[1] or \
-            self.fwhm_y >= self.image.shape[0]:
+                self.y0 >= self.image.shape[0] or \
+                math.isnan(self.fwhm_x) or \
+                math.isnan(self.fwhm_y) or \
+                self.fwhm_x >= self.image.shape[1] or \
+                self.fwhm_y >= self.image.shape[0]:
                 self.correct_fit = False
                 return
             self.fwhm = "{}|{}".format(abs(round(self.fwhm_x, 2)),abs(round(self.fwhm_y, 2)))

@@ -91,7 +91,6 @@ def draw_picture(database, image, args, model):
     fig, ax = plt.subplots(1)
     fig.set_size_inches(8.5, 8)
 
-    ax.imshow(image, cmap='gray', origin='lower', vmin=0, vmax=10)
 
     titles = ('SNR', 'SNR', 'SNR', 'ITER', 'SUM', 'MEAN', 'VAR', 'STD', 'SKEW', 'KURT', 'BCKG')
     title = titles[args.color - 1]
@@ -108,18 +107,20 @@ def draw_picture(database, image, args, model):
             x, y = data
             rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width+2, args.height+2,
                                                edgecolor='white', facecolor="none", linewidth=0.3)
-            t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
+            t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, 90) + ax.transData
             rec.set_transform(t)
             ax.add_patch(rec)
 
     for i, data in enumerate(database.data[:, 0:2]):
         color = cmap(norm(col_data[i]))
         x, y = data
-        rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width+2, args.height+2,
+        rec = matplotlib.patches.Rectangle((x - 1 - args.height / 2, y - 1 - args.width / 2), args.width+2, args.height+2,
                                            edgecolor=color, facecolor="none", linewidth=0.3, linestyle='dotted')
-        t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
+        t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, 90) + ax.transData
         rec.set_transform(t)
         ax.add_patch(rec)
+
+    ax.imshow(image, cmap='gray', origin='lower', vmin=0, vmax=10)
 
     return fig
 

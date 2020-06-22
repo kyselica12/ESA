@@ -19,6 +19,10 @@ t_load = time()
 image = fits.getdata(args.input)
 print('Image loaded')
 
+
+
+
+
 # switch X is not neede because in python dimensions are in proper order
 ALG_PARS = {"CENTRE_LIMIT": 0, "MATCH_LIMIT": 1}
 

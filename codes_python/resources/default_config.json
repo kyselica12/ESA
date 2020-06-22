@@ -1,0 +1,23 @@
+{
+  "input": "",
+  "width": 3,
+  "height": 3,
+  "angle": 0,
+  "noise_dim": 10,
+  "local_noise": 0,
+  "delta": 0.001,
+  "start_iter": 1000,
+  "max_iter": 10,
+  "min_iter": 2,
+  "snr_lim": 2,
+  "color": 3,
+  "model": "",
+  "output": "results/output",
+  "cent_pix_perc": 100,
+  "init_noise_removal": 0,
+  "fine_iter": 0,
+  "method": "sweep",
+  "parallel": 0,
+  "verbose": 0,
+  "json_config": "resources/default_config.json"
+}

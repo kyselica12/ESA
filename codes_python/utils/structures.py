@@ -1,3 +1,4 @@
+import json
 from collections import namedtuple
 from dataclasses import dataclass
 from typing import List, Tuple
@@ -147,4 +148,34 @@ class Report:
         d.data = data
         d.write_tsv(filename+'_matched')
 
+@dataclass
+class Configuration:
+    input: str
+    width: float
+    height: float
+    angle: float
+    noise_dim: float
+    local_noise: float
+    delta: float
+    start_iter: int
+    max_iter: int
+    min_iter: int
+    snr_lim: int
+    color: int
+    model: str
+    output: str
+    cent_pix_perc: float
+    init_noise_removal: float
+    fine_iter: int
+    method: str
+    parallel: int
+    verbose: int
+    json_config: str
 
+    def to_json(self):
+        return json.dumps(self.__dict__)
+
+    @classmethod
+    def from_json(cls, json_string):
+        json_dict = json.loads(json_string)
+        return cls(**json_dict)
