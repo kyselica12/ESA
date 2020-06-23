@@ -136,8 +136,6 @@ def read_arguments():
         if args.__dict__[name] is not None:
             cfg.__dict__[name] = args.__dict__[name]
 
-    print(cfg)
-
     return cfg
 
 

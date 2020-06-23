@@ -28,5 +28,3 @@ def save_call(args):
     with open(args.output + '.call.json', 'a') as f:
         data = args.to_json()
         print(data, file=f)
-
-    print('Done')

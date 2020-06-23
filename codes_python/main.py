@@ -4,7 +4,7 @@ from utils.run_preamble import import_packages
 from time import time
 
 t_init = time()
-import_packages()
+# import_packages()
 
 import numpy as np
 from astropy.io import fits
