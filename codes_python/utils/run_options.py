@@ -109,6 +109,21 @@ def read_arguments():
                         default = "resources/default_config.json",
                         help    = "Json file with default configuration.")
 
+    parser.add_argument("--sobel-threshold",
+                        type    = float,
+                        default = None,
+                        help    = "Sobel threshold for sobel segmentation")
+
+    parser.add_argument("--bkg-iterations",
+                        type    = int,
+                        default = None,
+                        help    ="Number of iteration for backgound extraction if sobel method is used")
+
+    parser.add_argument("--fit-function",
+                        type    = str,
+                        default = None,
+                        help    = "Fit function for sobel method ('gauss' / 'veres')")
+
 
     args = parser.parse_args()
 

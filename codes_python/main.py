@@ -49,6 +49,8 @@ else:
     t_wrt = time()
     result.database.write_tsv(f'{args.output}_s')
     result.discarded.write_tsv(f'{args.output}_discarded')
+    result.database.write_json(f'{args.output}_s')
+    result.discarded.write_json((f'{args.output}_discarded'))
 
     print(f'\nIdentified stars: {len(result.database.data)}')
     print(f'Discarded stars: {len(result.discarded.data)}')
@@ -56,7 +58,10 @@ else:
     report_result = report.generate_report(result.database, image, args)
 
     report_result.print()
-    report_result.write_tsv(args.output, result.database)
+
+    if args.model:
+        report_result.write_tsv(args.output, result.database)
+        report_result.write_json(args.output, result.database)
 
     t_end = time()
 

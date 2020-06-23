@@ -172,7 +172,7 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             
             for _ in range(self.fine_iter):
-                current = find_gravity_centre(grav_simple.center[0], grav_simple.center[1], self.A, self.B, self.alpha, self.image, self.pix_prop, background)
+                current = find_gravity_centre(current.center[0], current.center[1], self.A, self.B, self.alpha, self.image, self.pix_prop, background)
                 cent_x, cent_y = current.center
 
             # FIXME difference in R

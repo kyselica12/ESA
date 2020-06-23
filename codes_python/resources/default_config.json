@@ -11,7 +11,7 @@
   "min_iter": 2,
   "snr_lim": 2,
   "color": 3,
-  "model": "",
+  "model": null,
   "output": "results/output",
   "cent_pix_perc": 100,
   "init_noise_removal": 0,
