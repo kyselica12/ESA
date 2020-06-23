@@ -1,5 +1,6 @@
 import argparse
 from utils.structures import Configuration
+import os
 
 def read_arguments():
     parser = argparse.ArgumentParser()
@@ -106,7 +107,7 @@ def read_arguments():
 
     parser.add_argument("-J", "--json-config",
                         type    = str,
-                        default = "resources/default_config.json",
+                        default = None,
                         help    = "Json file with default configuration.")
 
     parser.add_argument("--sobel-threshold",
@@ -127,10 +128,17 @@ def read_arguments():
 
     args = parser.parse_args()
 
+    if args.json_config:
+        path = args.json_config
+    else:
+        path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(path, f'../resources/default_config.json')
+
     cfg = None
-    with open(args.json_config, 'r') as f:
+    with open(path, 'r') as f:
         json_string = f.read()
         cfg = Configuration.from_json(json_string)
+
 
     for name in args.__dict__:
         if args.__dict__[name] is not None:
