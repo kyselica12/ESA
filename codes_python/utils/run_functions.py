@@ -1,5 +1,3 @@
-import numpy as np
-
 from utils.structures import *
 from utils.structures import Database
 from typing import List
@@ -38,6 +36,7 @@ def combine_results(results : List[SerialResult]):
         stats.notright += result.stats.notright
 
     return SerialResult(database=database, discarded=discarded, stats=stats)
+
 
 def rms(X, predicted=None):
     if predicted is None:

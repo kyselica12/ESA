@@ -1,12 +1,12 @@
 # import external modules
-import numpy as np
 
 from utils.run_preamble import import_packages
 from time import time
 
 t_init = time()
-import_packages()
+# import_packages()
 
+import numpy as np
 from astropy.io import fits
 # import internal modules
 from utils import run_call, report, run_options
@@ -18,6 +18,10 @@ run_call.save_call(args)  # writes call arguments to file
 t_load = time()
 image = fits.getdata(args.input)
 print('Image loaded')
+
+
+
+
 
 # switch X is not neede because in python dimensions are in proper order
 ALG_PARS = {"CENTRE_LIMIT": 0, "MATCH_LIMIT": 1}
@@ -45,9 +49,8 @@ else:
     t_wrt = time()
     result.database.write_tsv(f'{args.output}_s')
     result.discarded.write_tsv(f'{args.output}_discarded')
-
-    print(np.sum(result.database.data[:,3]))
-
+    result.database.write_json(f'{args.output}_s')
+    result.discarded.write_json((f'{args.output}_discarded'))
 
     print(f'\nIdentified stars: {len(result.database.data)}')
     print(f'Discarded stars: {len(result.discarded.data)}')
@@ -55,7 +58,10 @@ else:
     report_result = report.generate_report(result.database, image, args)
 
     report_result.print()
-    report_result.write_tsv(args.output, result.database)
+
+    if args.model:
+        report_result.write_tsv(args.output, result.database)
+        report_result.write_json(args.output, result.database)
 
     t_end = time()
 

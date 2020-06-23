@@ -12,7 +12,7 @@ def save_call(args):
     data += '-I ' + str(args.min_iter) + ' '
     data += '-S ' + str(args.snr_lim) + ' '
     data += '-Z ' + str(args.color) + ' '
-    if args.model != '':
+    if args.model:
         data += '-E ' + str(args.model) + ' '
     data += '-O ' + str(args.output) + ' '
     data += '-Y ' + str(args.cent_pix_perc) + ' '
@@ -23,4 +23,8 @@ def save_call(args):
     data += '-V ' + str(args.verbose) + '\n'
 
     with open(args.output+'.call', 'a') as f:
+        print(data, file=f)
+
+    with open(args.output + '.call.json', 'a') as f:
+        data = args.to_json()
         print(data, file=f)

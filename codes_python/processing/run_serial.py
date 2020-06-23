@@ -1,4 +1,7 @@
 import scipy.cluster.hierarchy as hcluster
+
+from processing.psf_segmentation.background_extraction_cli import sigma_clipper
+from processing.psf_segmentation.sobel import sobel_extract_clusters
 from processing.wrapper import CentroidSimpleWrapper
 from utils.structures import *
 
@@ -12,7 +15,7 @@ CENTRE_LIMIT = 0
 class Serial:
 
     def __init__(self, args, image, log_file=""):
-        self.args = args
+        self.args: Configuration = args
         self.log_file = log_file
         self.image = image
 
@@ -109,7 +112,54 @@ class Serial:
                 self.perform_step(sumGx/sumG, sumGy/sumG)
 
         elif self.args.method == "sobel":
-            return None
+            # TODO what to do with fit header??
+            image = self.image[x_start: x_end, y_start: y_end]
+            sobel_threshold = self.args.sobel_threshold
+            fit_function = self.args.fit_function
+            number_of_iterations = self.args.bkg_iterations
+            # square_size = (self.args.width, self.args.height)
+            square_size = (5,5)
+
+
+            extracted_point_clusters = sobel_extract_clusters(image, threshold=sobel_threshold)
+            background = sigma_clipper(image, iterations=number_of_iterations)
+
+            output_data = []
+            for i, cluster in enumerate(extracted_point_clusters):
+                cluster.show_object_fit = False
+                cluster.show_object_fit_separate = False
+                # cluster.add_header_data(headers)
+                cluster.add_background_data(background)
+                try:
+                    params = cluster.fit_curve(function=fit_function, square_size=square_size)
+                except Exception as e:
+                    continue  # suppress all Exceptions, incorrect fits are discarded
+
+
+                if cluster.correct_fit:
+                    # print('+', end='')
+                    output_data.append(cluster.output_data())
+                    # TODO merge output with tsv database
+                    # print(cluster)
+                    # self.database.add(cluster.output_data())
+
+            result = ""
+            result += '-' * 150 + '\n'
+            result += '{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}'.format("x", "y", "flux", "fwhm_x|fwhm_y",
+                                                                                "peak_SNR", "fit_rms", "skew_x|skew_y",
+                                                                                "kurt_x|kurt_y") + '\n'
+            result += '-' * 150 + '\n'
+            for i, data in enumerate(output_data):
+                result += '{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}'.format(data[0], data[1], data[2], data[3],
+                                                                                    data[4], data[5], data[6],
+                                                                                    data[7]) + '\n'
+
+            print(result)
+            self.stats.started = len(extracted_point_clusters)
+            self.stats.ok = len(output_data)
+            self.stats.notright = len(extracted_point_clusters) - len(output_data)
+
+
 
         return SerialResult(database=self.database, discarded=self.discarded, stats=self.stats)
 

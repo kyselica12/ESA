@@ -1,13 +1,14 @@
-from collections import namedtuple
+import json
 from dataclasses import dataclass
 from typing import List, Tuple
 import numpy as np
+
+import pandas as pd
 
 
 class Database:
 
     def __init__(self, init_value, nrows, ncols, col_names):
-
         self.data = np.ones((nrows, ncols)) * init_value
         self.nrows = nrows
         self.ncols = ncols
@@ -17,7 +18,7 @@ class Database:
     def update(self, current, thrs):
 
         if self.nrows == 0:
-            self.data = np.concatenate((self.data, [current]))
+            self.add(current)
             return -1
 
         dist = np.array([np.sqrt((self.data[i][0] - current[0]) ** 2 + (self.data[i][1] - current[1]) ** 2) for i in
@@ -42,7 +43,6 @@ class Database:
         self.data = np.concatenate((self.data, [data]))
 
     def concatenate(self, other):
-
         new = Database(0, self.nrows, self.ncols, self.col_names)
         new.data = np.concatenate((self.data, other.data))
 
@@ -61,6 +61,15 @@ class Database:
 
     def size(self):
         return len(self.data)
+
+    def write_json(self, filename):
+
+
+        with open(filename + '.json', 'w') as f:
+            for line in self.data:
+                print(json.dumps({n: v for n, v in zip(self.col_names, line)}), file=f)
+
+
 
 @dataclass
 class WrapperResult:
@@ -143,8 +152,59 @@ class Report:
         matched_model = self.model[self.matched[:, 1]]
         data = np.concatenate((matched_database, matched_model), axis=1)
 
-        d = Database(init_value=0, nrows=0, ncols=0, col_names=None)
+        col_names = ('cent.x', 'cent.y', 'sum', 'cat.x', 'cat.y', 'cat.sum')
+
+        d = Database(init_value=0, nrows=0, ncols=0, col_names=col_names)
         d.data = data
         d.write_tsv(filename+'_matched')
 
+    def write_json(self, filename, database):
 
+        matched_database = database.data[self.matched[:, 0]][:, [0, 1, 4]]
+        matched_model = self.model[self.matched[:, 1]]
+        data = np.concatenate((matched_database, matched_model), axis=1)
+
+        col_names = ('cent.x', 'cent.y', 'sum', 'cat.x', 'cat.y', 'cat.sum')
+
+        d = Database(init_value=0, nrows=0, ncols=0, col_names=col_names)
+        d.data = data
+        d.write_json(filename + '_matched')
+
+
+
+
+
+@dataclass
+class Configuration:
+    input: str
+    width: float
+    height: float
+    angle: float
+    noise_dim: float
+    local_noise: float
+    delta: float
+    start_iter: int
+    max_iter: int
+    min_iter: int
+    snr_lim: int
+    color: int
+    model: str
+    output: str
+    cent_pix_perc: float
+    init_noise_removal: float
+    fine_iter: int
+    method: str
+    parallel: int
+    verbose: int
+    json_config: str
+    sobel_threshold: float
+    fit_function: str
+    bkg_iterations: int
+
+    def to_json(self):
+        return json.dumps(self.__dict__)
+
+    @classmethod
+    def from_json(cls, json_string):
+        json_dict = json.loads(json_string)
+        return cls(**json_dict)

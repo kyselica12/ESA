@@ -7,7 +7,6 @@ from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib
 from scipy.spatial import distance
 from scipy.stats import norm, gaussian_kde
-
 from utils.run_functions import rms
 from utils.structures import Report
 
@@ -91,7 +90,6 @@ def draw_picture(database, image, args, model):
     fig, ax = plt.subplots(1)
     fig.set_size_inches(8.5, 8)
 
-    ax.imshow(image, cmap='gray', origin='lower', vmin=0, vmax=10)
 
     titles = ('SNR', 'SNR', 'SNR', 'ITER', 'SUM', 'MEAN', 'VAR', 'STD', 'SKEW', 'KURT', 'BCKG')
     title = titles[args.color - 1]
@@ -106,20 +104,22 @@ def draw_picture(database, image, args, model):
     if model is not None:
         for i, data in enumerate(model[:, 0:2]):
             x, y = data
-            rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width+2, args.height+2,
-                                               edgecolor='white', facecolor="none", linewidth=0.3)
-            t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
+            rec = matplotlib.patches.Rectangle((x - 0.5 - args.height/2, y - 0.5 - args.width/2), args.height+1, args.width+1,
+                                               edgecolor='white', facecolor="none", linewidth=0.5)
+            t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, 90) + ax.transData
             rec.set_transform(t)
             ax.add_patch(rec)
 
     for i, data in enumerate(database.data[:, 0:2]):
         color = cmap(norm(col_data[i]))
         x, y = data
-        rec = matplotlib.patches.Rectangle((x - args.height / 2, y - args.width / 2), args.width+2, args.height+2,
-                                           edgecolor=color, facecolor="none", linewidth=0.3, linestyle='dotted')
-        t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
+        rec = matplotlib.patches.Rectangle((x - 0.5 - args.height/2, y - 0.5 - args.width/2), args.height+1, args.width+1,
+                                           edgecolor=color, facecolor="none", linewidth=0.5, linestyle='dotted')
+        t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, 90) + ax.transData
         rec.set_transform(t)
         ax.add_patch(rec)
+
+    ax.imshow(image, cmap='gray', origin='lower', vmin=0, vmax=10)
 
     return fig
 
@@ -161,8 +161,6 @@ def iter_hist(database):
     axs = fig.subplots(2, 2)
 
     create_hist(database.data[:, 3], title='iter', ax=axs[0][1], plot_normal=False)
-
-    # axs[0][1].set_title("iter")
 
     create_hist(database.data[:, 2], title='SNR', ax=axs[0][0], ylabel='Density', plot_normal=True)
     create_hist(database.data[:, 8], title='skew', ax=axs[1][0], ylabel='Density', plot_normal=True)
@@ -236,7 +234,7 @@ def brightness_scat(database, model, matched):
 
 
 def generate_report(database, image, args):
-    if args.model is not None:
+    if args.model is not None and args.model != "":
         model, matched, unmatched = match_objects(database, args)
     else:
         model = None
@@ -267,9 +265,9 @@ def generate_report(database, image, args):
     return Report(matched=matched,
                   unmatched=unmatched,
                   model=model,
-                  X=np.mean(X),
-                  Y=np.mean(Y),
-                  rms_x=rms(X),
-                  rms_y=rms(Y)
+                  X=np.mean(X) if X is not None else 0,
+                  Y=np.mean(Y) if Y is not None else 0,
+                  rms_x=rms(X) if X is not None else 0,
+                  rms_y=rms(Y) if Y is not None else 0
                   )
 
