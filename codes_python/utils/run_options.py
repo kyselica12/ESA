@@ -128,14 +128,13 @@ def read_arguments():
 
     args = parser.parse_args()
 
-    if args.json_config:
-        path = args.json_config
-    else:
+    if args.json_config is None:
         path = os.path.dirname(os.path.abspath(__file__))
         path = os.path.join(path, f'../resources/default_config.json')
+        args.json_config = path
 
     cfg = None
-    with open(path, 'r') as f:
+    with open(args.json_config, 'r') as f:
         json_string = f.read()
         cfg = Configuration.from_json(json_string)
 
