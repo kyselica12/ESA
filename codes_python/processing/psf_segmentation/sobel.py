@@ -20,14 +20,12 @@ def sobel_extract_clusters(image, threshold=20):
 
     joined_points = join_neigbor_points_mask(mask)
 
-    noise_dispersion = int( histogram_threshold( image, sigma_only=True ))
-
     clusters = []
     for point_mesh in joined_points:
         cluster = PointCluster(point_mesh, image)
-        cluster.noise_dispersion = noise_dispersion
         cluster.sobel = True
         clusters.append(cluster)
+
     return clusters
 
 def join_neigbor_points_mask(mask):

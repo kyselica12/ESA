@@ -118,12 +118,17 @@ def read_arguments():
     parser.add_argument("--bkg-iterations",
                         type    = int,
                         default = None,
-                        help    ="Number of iteration for backgound extraction if sobel method is used")
+                        help    ="Number of iteration for backgound extraction if PSF is used")
 
     parser.add_argument("--fit-function",
                         type    = str,
                         default = None,
-                        help    = "Fit function for sobel method ('gauss' / 'veres')")
+                        help    = "Fit function for PSF fitting method ('gauss' / 'veres')")
+
+    parser.add_argument('--psf',
+                        type = bool,
+                        default= False,
+                        help = "Flag for using PSF fitting method")
 
 
     args = parser.parse_args()

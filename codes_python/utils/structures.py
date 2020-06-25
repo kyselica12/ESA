@@ -8,19 +8,21 @@ class Database:
 
     def __init__(self, init_value, nrows, ncols, col_names):
         self.data = np.ones((nrows, ncols)) * init_value
-        self.nrows = nrows
         self.ncols = ncols
 
         self.col_names = col_names
 
+    def nrows(self):
+        return self.data.shape[0]
+
     def update(self, current, thrs):
 
-        if self.nrows == 0:
+        if self.nrows() == 0:
             self.add(current)
             return -1
 
         dist = np.array([np.sqrt((self.data[i][0] - current[0]) ** 2 + (self.data[i][1] - current[1]) ** 2) for i in
-                         range(self.nrows)])
+                         range(self.nrows())])
 
         close_rows = dist < thrs
 
@@ -41,7 +43,7 @@ class Database:
         self.data = np.concatenate((self.data, [data]))
 
     def concatenate(self, other):
-        new = Database(0, self.nrows, self.ncols, self.col_names)
+        new = Database(0, 0, self.ncols, self.col_names)
         new.data = np.concatenate((self.data, other.data))
 
         return new
@@ -198,6 +200,7 @@ class Configuration:
     sobel_threshold: float
     fit_function: str
     bkg_iterations: int
+    psf: bool
 
     def to_json(self):
         return json.dumps(self.__dict__)
