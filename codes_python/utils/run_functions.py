@@ -22,7 +22,7 @@ def combine_results(results : List[SerialResult]):
 
     for result in results:
         database = database.concatenate(result.database)
-        discarded = database.concatenate(result.discarded)
+        discarded = discarded.concatenate(result.discarded)
 
         stats.started  += result.stats.started
         stats.nulldata += result.stats.nulldata

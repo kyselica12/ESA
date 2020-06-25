@@ -117,9 +117,7 @@ class Serial:
             sobel_threshold = self.args.sobel_threshold
             fit_function = self.args.fit_function
             number_of_iterations = self.args.bkg_iterations
-            # square_size = (self.args.width, self.args.height)
-            square_size = (5,5)
-
+            square_size = (self.args.width, self.args.height)
 
             extracted_point_clusters = sobel_extract_clusters(image, threshold=sobel_threshold)
             background = sigma_clipper(image, iterations=number_of_iterations)
