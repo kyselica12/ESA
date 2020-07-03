@@ -1,16 +1,18 @@
 import json
 from dataclasses import dataclass
 from typing import List, Tuple
-import numpy as np
+from abc import ABC, abstractmethod
+import  numpy as np
 
 
 class Database:
+    cols = ('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg')
+    additional_cols = ('fwhm_x', 'fwhm_y', 'fit_rms', 'skew_x', 'skew_y','kurt_x', 'kurt_y')
 
-    def __init__(self, init_value, nrows, ncols, col_names):
-        self.data = np.ones((nrows, ncols)) * init_value
-        self.ncols = ncols
-
-        self.col_names = col_names
+    def __init__(self, psf = False):
+        self.data = np.zeros((0, len(self.cols)))
+        self.additional_data = np.zeros((0, len(self.additional_cols)))
+        self.psf = psf
 
     def nrows(self):
         return self.data.shape[0]
@@ -40,34 +42,51 @@ class Database:
         return 1
 
     def add(self, data):
-        self.data = np.concatenate((self.data, [data]))
+        if self.psf:
+            self.data = np.concatenate((self.data, [data[:len(self.cols)]]))
+            self.additional_data = np.concatenate((self.additional_data, [data[len(self.cols):]]))
+        else:
+            self.data = np.concatenate((self.data, [data]))
 
     def concatenate(self, other):
-        new = Database(0, 0, self.ncols, self.col_names)
+        new = Database()
         new.data = np.concatenate((self.data, other.data))
+        new.additional_data = np.concatenate((self.additional_data, other.additional_data))
 
         return new
 
     def write_tsv(self, filename):
 
-        ordered = self.data[np.argsort(self.data[:, 0])]
+        sorted_idx = np.argsort(self.data[:, 0])
+
+        ordered = self.data[sorted_idx].astype(str)
+
+        if self.psf:
+            ordered[:,9] = list(map(lambda x: f'{x[0]}|{x[1]}|s', self.additional_data[:,5:7]))
 
         filename = filename + '.tsv'
         with open(filename, 'w') as f:
-            if self.col_names is not None:
-                print('\t'.join(self.col_names), file=f)
+            if self.cols is not None:
+                print('\t'.join(self.cols), file=f)
             for line in ordered:
-                print('\t'.join(list(map(str, line))), file=f)
+                print('\t'.join(line), file=f)
 
     def size(self):
         return len(self.data)
 
     def write_json(self, filename):
+        tmp = self.data.copy()
+        if self.psf:
+            tmp[:,[3,5,6,7,8,9]] = np.nan
+        else:
+            self.additional_data = np.ones((self.nrows(),len(self.additional_cols))) * np.nan
 
+        tmp = np.concatenate((tmp, self.additional_data), axis=1)
+        col_names = self.cols + self.additional_cols
 
         with open(filename + '.json', 'w') as f:
-            for line in self.data:
-                print(json.dumps({n: v for n, v in zip(self.col_names, line)}), file=f)
+            for line in tmp:
+                print(json.dumps({n: v for n, v in zip(col_names, line)}), file=f)
 
 
 

@@ -40,6 +40,12 @@ class PointCluster(object):
         return [abs(self.x0), abs(self.y0), self.cumulated_flux, self.fwhm,\
                 self.psnr, self.rms, self.skew, self.skew_mid_y, self.kurtosis]
 
+    def output_data_tsv(self):
+        return [abs(self.x0), abs(self.y0), self.psnr, self.rms, \
+                self.cumulated_flux,self.fwhm_x, self.fwhm_y, \
+                self.skew_mid_x, self.skew_mid_y ,self.kurtosis_mid_x, self.noise_median,\
+                self.fwhm_x,self.fwhm_y, self.rms,self.skew_mid_x, self.skew_mid_y, self.kurtosis_mid_x, self.kurtosis_mid_y]
+
     def add_header_data( self, header_data ):
         self.header_data = header_data
 
@@ -171,7 +177,6 @@ class PointCluster(object):
             self.length = 50 # from self.header_data
             self.width = 0.5 # from self.header_data
             self.rotation = 45 # rotation from self.header_data
-            print('################')
             x = np.linspace(0, square_size[0]-1, square_size[0])
             y = np.linspace(0, square_size[1]-1, square_size[1])
             x, y = np.meshgrid(x, y)

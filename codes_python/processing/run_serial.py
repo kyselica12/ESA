@@ -36,10 +36,8 @@ class Serial:
 
         x_start, x_end, y_start, y_end = index
 
-
-        names = ('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg')
-        self.database  = Database(init_value=0, nrows=0, ncols=11, col_names=names )
-        self.discarded = Database(init_value=0, nrows=0, ncols=11, col_names=names )
+        self.database  = Database()
+        self.discarded = Database()
 
         A = self.args.width
         B = self.args.height
@@ -127,24 +125,6 @@ class Serial:
                 self.process_clusters(extracted_point_clusters)
 
 
-
-
-
-        elif self.args.method == "psf":
-
-            # TODO what to do with fit header??
-
-            image = self.image[x_start: x_end, y_start: y_end]
-            sobel_threshold = self.args.sobel_threshold
-            number_of_iterations = self.args.bkg_iterations
-            fit_function = self.args.fit_function
-            square_size = (self.args.width, self.args.height)
-
-            extracted_point_clusters = sobel_extract_clusters(image, threshold=sobel_threshold)
-
-
-            self.psf(image, extracted_point_clusters)
-
         return SerialResult(database=self.database, discarded=self.discarded, stats=self.stats)
 
     def process_clusters(self, extracted_point_clusters):
@@ -163,15 +143,20 @@ class Serial:
 
             self.perform_step(sumGx / sumG, sumGy / sumG)
 
-    def psf(self, image, extracted_point_clusters):
+    def psf(self, image, extracted_point_clusters : List[PointCluster]):
+
+        self.database.psf = True
+        self.discarded.psf = True
+
         fit_function = self.args.fit_function
         number_of_iterations = self.args.bkg_iterations
         square_size = (self.args.width, self.args.height)
 
         background = sigma_clipper(image, iterations=number_of_iterations)
-
         output_data = []
         for i, cluster in enumerate(extracted_point_clusters):
+            self.stats.started += 1
+
             cluster.show_object_fit = False
             cluster.show_object_fit_separate = False
             # cluster.add_header_data(headers)
@@ -179,14 +164,14 @@ class Serial:
             try:
                 params = cluster.fit_curve(function=fit_function, square_size=square_size)
             except Exception as e:
+                self.stats.notright += 1
                 continue  # suppress all Exceptions, incorrect fits are discarded
 
             if cluster.correct_fit:
-                # print('+', end='')
-                output_data.append(cluster.output_data())
+                self.stats.ok += 1
+                output_data.append(cluster.output_data_tsv())
                 # TODO merge output with tsv database
-                # print(cluster)
-                # self.database.add(cluster.output_data())
+                self.database.add(cluster.output_data_tsv())
         result = ""
         result += '-' * 150 + '\n'
         result += '{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}'.format("x", "y", "flux", "fwhm_x|fwhm_y",
@@ -198,9 +183,6 @@ class Serial:
                                                                                 data[4], data[5], data[6],
                                                                                 data[7]) + '\n'
         print(result)
-        # self.stats.started = len(extracted_point_clusters)
-        # self.stats.ok = len(output_data)
-        # self.stats.notright = len(extracted_point_clusters) - len(output_data)
 
     def perform_step(self, x,y):
 

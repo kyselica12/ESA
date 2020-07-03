@@ -127,7 +127,7 @@ def read_arguments():
 
     parser.add_argument('--psf',
                         type = bool,
-                        default= False,
+                        default= None,
                         help = "Flag for using PSF fitting method")
 
 
