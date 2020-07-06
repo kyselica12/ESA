@@ -1,4 +1,4 @@
-from utils.run_functions import remove_negative
+from utils.run_functions import remove_negative, brightness_error
 from processing.getPixels import get_pixels
 from processing.getGratvityCentre import find_gravity_centre
 from copy import deepcopy
@@ -222,11 +222,15 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             log.append([current.center[0], current.center[1], 0, iter, np.sum(current.Z_pixels), mu, v, s, sk, ku])
 
-        return WrapperResult(result=DatabaseItem(cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels), mu, v,s,sk,ku, background),
-                              noise=background,
-                              log=log,
-                              message='OK',
-                              code=0)
+        n_b = (self.A + 2*self.noise_dim) * (self.B + 2*self.noise_dim) - self.A*self.B
+        sum_brightness = np.sum(grav_simple.Z_pixels)
+        bri_error = brightness_error(sum_brightness, background, len(grav_simple.Z_pixels), n_b)
+
+        return WrapperResult(result=DatabaseItem(cent_x, cent_y, snr, iter, sum_brightness, mu, v, s, sk, ku, background, bri_error=bri_error),
+                             noise=background,
+                             log=log,
+                             message='OK',
+                             code=0)
 
         
     

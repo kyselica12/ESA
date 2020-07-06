@@ -78,7 +78,7 @@ class Database:
             ordered[:, 9] =  list(map(lambda x: f'{x[0]}|{x[1]}|s', self.data[:,16:18]))
 
 
-        filename = filename + '.tsv'
+        filename = filename
         col_names = self.col_names[:11]
 
         run_functions.write_tsv(filename, col_names, ordered)
