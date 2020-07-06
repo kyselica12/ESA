@@ -2,29 +2,45 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 from abc import ABC, abstractmethod
-import  numpy as np
+import numpy as np
+from utils import run_functions
+
+
+class DatabaseItem:
+
+    def __init__(self, cent_x=0, cent_y=0, snr=0, iter=0, sum=0, mean=0, var=0, std=0, skew=0, kurt=0, bckg=0,
+                 fwhm_x=None, fwhm_y=None, rms=None, skew_x=None, skew_y=None,
+                 kurt_x=None, kurt_y=None, bri_error=None):
+        self.data = [cent_x, cent_y, snr, iter, sum, mean, var, std, skew, kurt, bckg,
+                     fwhm_x, fwhm_y, rms, skew_x, skew_y,
+                     kurt_x, kurt_y, bri_error]
 
 
 class Database:
-    cols = ('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg')
-    additional_cols = ('fwhm_x', 'fwhm_y', 'fit_rms', 'skew_x', 'skew_y','kurt_x', 'kurt_y')
+    col_names = ('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg',
+                'fwhm_x', 'fwhm_y', 'fit_rms', 'skew_x', 'skew_y', 'kurt_x', 'kurt_y', 'bri_error')
 
-    def __init__(self, psf = False):
-        self.data = np.zeros((0, len(self.cols)))
-        self.additional_data = np.zeros((0, len(self.additional_cols)))
-        self.psf = psf
+    def __init__(self, psf=False):
+        self.data = np.zeros((0, len(self.col_names))).astype(object)
+        self.psf_enabled = psf
+
+    def psf_data_mode(self):
+        return not np.any(self.data[11:18] == None)
 
     def nrows(self):
         return self.data.shape[0]
 
-    def update(self, current, thrs):
+    def update(self, current: DatabaseItem, thrs):
+
+        current = current.data
 
         if self.nrows() == 0:
             self.add(current)
             return -1
 
-        dist = np.array([np.sqrt((self.data[i][0] - current[0]) ** 2 + (self.data[i][1] - current[1]) ** 2) for i in
-                         range(self.nrows())])
+        dist = np.array(
+            [np.sqrt((self.data[i][0] - current[0]) ** 2 + (self.data[i][1] - current[1]) ** 2) for i in
+             range(self.nrows())])
 
         close_rows = dist < thrs
 
@@ -42,16 +58,13 @@ class Database:
         return 1
 
     def add(self, data):
-        if self.psf:
-            self.data = np.concatenate((self.data, [data[:len(self.cols)]]))
-            self.additional_data = np.concatenate((self.additional_data, [data[len(self.cols):]]))
-        else:
-            self.data = np.concatenate((self.data, [data]))
+        if isinstance(data, DatabaseItem):
+            data = data.data
+        self.data = np.concatenate((self.data, [data]))
 
     def concatenate(self, other):
         new = Database()
         new.data = np.concatenate((self.data, other.data))
-        new.additional_data = np.concatenate((self.additional_data, other.additional_data))
 
         return new
 
@@ -59,50 +72,45 @@ class Database:
 
         sorted_idx = np.argsort(self.data[:, 0])
 
-        ordered = self.data[sorted_idx].astype(str)
+        ordered = self.data[sorted_idx][:,:11].astype(str)
 
-        if self.psf:
-            ordered[:,9] = list(map(lambda x: f'{x[0]}|{x[1]}|s', self.additional_data[:,5:7]))
+        if self.psf_data_mode():
+            ordered[:, 9] =  list(map(lambda x: f'{x[0]}|{x[1]}|s', self.data[:,16:18]))
+
 
         filename = filename + '.tsv'
-        with open(filename, 'w') as f:
-            if self.cols is not None:
-                print('\t'.join(self.cols), file=f)
-            for line in ordered:
-                print('\t'.join(line), file=f)
+        col_names = self.col_names[:11]
+
+        run_functions.write_tsv(filename, col_names, ordered)
+
+    def compute_brightness_error(self, n_ipx, n_b):
+        return
 
     def size(self):
         return len(self.data)
 
     def write_json(self, filename):
-        tmp = self.data.copy()
-        if self.psf:
-            tmp[:,[3,5,6,7,8,9]] = np.nan
-        else:
-            self.additional_data = np.ones((self.nrows(),len(self.additional_cols))) * np.nan
+        tmp = self.data.copy().astype(object)
+        if self.psf_data_mode():
+            tmp[:, [3, 5, 6, 7, 8, 9]] = None
 
-        tmp = np.concatenate((tmp, self.additional_data), axis=1)
-        col_names = self.cols + self.additional_cols
-
-        with open(filename + '.json', 'w') as f:
-            for line in tmp:
-                print(json.dumps({n: v for n, v in zip(col_names, line)}), file=f)
-
-
+        run_functions.write_json(filename,self.col_names, tmp)
 
 @dataclass
 class WrapperResult:
-    result: List
+    result: DatabaseItem
     noise: int
     log: List
     message: str
     code: int
+
 
 @dataclass
 class Step:
     code: int = -1
     x: int = -1
     y: int = -1
+
 
 @dataclass
 class Stats:
@@ -116,6 +124,7 @@ class Stats:
     lowsnr: int = 0
     ok: int = 0
     notright: int = 0
+
 
 @dataclass
 class SerialResult:
@@ -136,12 +145,14 @@ class SerialResult:
         print(f'   Low SNR        : {self.stats.lowsnr}')
         print(f'   Not right      : {self.stats.notright}')
 
+
 @dataclass
 class GravityCentreResult:
     center: Tuple
     X_pixels: np.ndarray
     Y_pixels: np.ndarray
     Z_pixels: np.ndarray
+
 
 @dataclass
 class Report:
@@ -167,15 +178,13 @@ class Report:
 
     def write_tsv(self, filename, database):
 
-        matched_database = database.data[self.matched[:, 0]][:,[0,1,4]]
+        matched_database = database.data[self.matched[:, 0]][:, [0, 1, 4]]
         matched_model = self.model[self.matched[:, 1]]
         data = np.concatenate((matched_database, matched_model), axis=1)
 
         col_names = ('cent.x', 'cent.y', 'sum', 'cat.x', 'cat.y', 'cat.sum')
+        run_functions.write_tsv(filename+'_matched', col_names, data.astype(np.float32))
 
-        d = Database(init_value=0, nrows=0, ncols=0, col_names=col_names)
-        d.data = data
-        d.write_tsv(filename+'_matched')
 
     def write_json(self, filename, database):
 
@@ -185,12 +194,7 @@ class Report:
 
         col_names = ('cent.x', 'cent.y', 'sum', 'cat.x', 'cat.y', 'cat.sum')
 
-        d = Database(init_value=0, nrows=0, ncols=0, col_names=col_names)
-        d.data = data
-        d.write_json(filename + '_matched')
-
-
-
+        run_functions.write_json(filename + '_matched', col_names, data)
 
 
 @dataclass
@@ -215,6 +219,7 @@ class Configuration:
     method: str
     parallel: int
     verbose: int
+    match_limit: float
     json_config: str
     sobel_threshold: float
     fit_function: str

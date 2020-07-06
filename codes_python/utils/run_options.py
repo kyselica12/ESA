@@ -130,6 +130,11 @@ def read_arguments():
                         default= None,
                         help = "Flag for using PSF fitting method")
 
+    parser.add_argument('--match-limit',
+                        type=float,
+                        default=None,
+                        help= "Accepted distance between stars while matching with .cat")
+
 
     args = parser.parse_args()
 

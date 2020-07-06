@@ -19,6 +19,7 @@
   "method": "sweep",
   "parallel": 0,
   "verbose": 0,
+  "match_limit": 1,
   "sobel_threshold": 20,
   "psf": false,
   "fit_function": "gauss",

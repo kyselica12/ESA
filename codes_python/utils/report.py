@@ -8,9 +8,9 @@ import matplotlib
 from scipy.spatial import distance
 from scipy.stats import norm, gaussian_kde
 from utils.run_functions import rms
-from utils.structures import Report
+from utils.structures import Report, Configuration
 
-MATCH_LIMIT = 1
+# MATCH_LIMIT = 1
 
 
 def parse_cat(filename):
@@ -34,7 +34,7 @@ def match_objects(database, params):
     else:
         model = np.genfromtxt(params.model, delimiter='\t')
 
-    found_points = database.data[:, 0:2]
+    found_points = database.data[:, 0:2].astype(np.float32)
     model_points = model[:, 0:2]
 
     # idx = np.argsort(found_points[:,0])
@@ -57,7 +57,7 @@ def match_objects(database, params):
             i += 1
             continue
 
-        if min_value[i] > MATCH_LIMIT:
+        if min_value[i] > params.match_limit:
             unmatched.append([i, min_value[i]])
             processed.add(i)
             i += 1
@@ -85,7 +85,7 @@ def match_objects(database, params):
     return model, np.array(matched), np.array(unmatched)
 
 
-def draw_picture(database, image, args, model):
+def draw_picture(database, image, args: Configuration, model):
 
     fig, ax = plt.subplots(1)
     fig.set_size_inches(8.5, 8)
@@ -104,18 +104,18 @@ def draw_picture(database, image, args, model):
     if model is not None:
         for i, data in enumerate(model[:, 0:2]):
             x, y = data
-            rec = matplotlib.patches.Rectangle((x - 0.5 - args.height/2, y - 0.5 - args.width/2), args.height+1, args.width+1,
+            rec = matplotlib.patches.Rectangle((x-0.5 - args.width/2, y-0.5 - args.height/2), args.width+1, args.height+1,
                                                edgecolor='white', facecolor="none", linewidth=0.5)
-            t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, 90) + ax.transData
+            t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
             rec.set_transform(t)
             ax.add_patch(rec)
 
     for i, data in enumerate(database.data[:, 0:2]):
         color = cmap(norm(col_data[i]))
         x, y = data
-        rec = matplotlib.patches.Rectangle((x - 0.5 - args.height/2, y - 0.5 - args.width/2), args.height+1, args.width+1,
+        rec = matplotlib.patches.Rectangle((x-0.5 - args.width/2, y-0.5 - args.height/2), args.width+1, args.height+1,
                                            edgecolor=color, facecolor="none", linewidth=0.5, linestyle='dotted')
-        t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, 90) + ax.transData
+        t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
         rec.set_transform(t)
         ax.add_patch(rec)
 
@@ -125,6 +125,8 @@ def draw_picture(database, image, args, model):
 
 
 def create_hist(data, title, ax, xlabel='', ylabel='', plot_normal=True):
+
+    data = data.astype(np.float32)
 
     mu, std = norm.fit(data)
 
@@ -177,12 +179,15 @@ def model_hist(database, model, matched):
     axs = fig.subplots(2, 2)
 
     X = database.data[matched[:, 0], 0] - model[matched[:, 1], 0]
+    X = X.astype(np.float32)
     create_hist(X, title=f'X axis differences {np.mean(X):.4f}', ax=axs[0][0], xlabel='X difference')
 
-    Y = database.data[matched[:, 0], 1] - model[matched[:, 1], 1]
+    Y = database.data[matched[:, 0], 1] - model[matched[:, 1], 1].astype(np.float32)
+    Y = Y.astype(np.float32)
     create_hist(Y, title=f'Y axis differences {np.mean(Y):.4f}', ax=axs[0][1], xlabel='Y difference')
 
     E = np.sqrt(X ** 2 + Y ** 2)
+
     create_hist(E, title='Euclidean differences', ax=axs[1][0], xlabel='Distances')
     create_hist(np.log(E), title='Log Euclidean differences', ax=axs[1][1], xlabel='Log distances')
 
@@ -215,7 +220,7 @@ def brightness_scat(database, model, matched):
     fig.set_size_inches(8.5, 8, forward=True)
     ax = fig.subplots(1)
 
-    X = database.data[matched[:, 0], 4]
+    X = database.data[matched[:, 0], 4].astype(np.float32)
     Y = model[matched[:, 1], 2]
     slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(X, Y)
 

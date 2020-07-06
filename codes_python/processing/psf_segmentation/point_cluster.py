@@ -7,8 +7,9 @@ from astropy.modeling import models, fitting
 import scipy.integrate as integrate
 import warnings
 
-from utils.run_functions import psnr
+from utils.run_functions import psnr, brightness_error
 from utils.run_functions import rms
+from utils.structures import DatabaseItem
 
 seterr(all='ignore') # suppress fitting errors
 warnings.simplefilter("ignore") # suppress fitting warnings
@@ -45,6 +46,17 @@ class PointCluster(object):
                 self.cumulated_flux,self.fwhm_x, self.fwhm_y, \
                 self.skew_mid_x, self.skew_mid_y ,self.kurtosis_mid_x, self.noise_median,\
                 self.fwhm_x,self.fwhm_y, self.rms,self.skew_mid_x, self.skew_mid_y, self.kurtosis_mid_x, self.kurtosis_mid_y]
+
+    def output_database_item(self):
+
+        n_b = self.image.shape[0] * self.image.shape[1]
+        bri_error = brightness_error(self.cumulated_flux, self.noise_median, len(self.points), n_b)
+
+        return DatabaseItem(abs(self.x0), abs(self.y0), self.psnr, self.rms, \
+                self.cumulated_flux,self.fwhm_x, self.fwhm_y, \
+                self.skew_mid_x, self.skew_mid_y ,self.kurtosis_mid_x, self.noise_median,\
+                self.fwhm_x,self.fwhm_y, self.rms,self.skew_mid_x, self.skew_mid_y, self.kurtosis_mid_x, self.kurtosis_mid_y,
+                bri_error=bri_error)
 
     def add_header_data( self, header_data ):
         self.header_data = header_data

@@ -82,20 +82,20 @@ class CentroidSimpleWrapper:
 
         # check the content of the rectangle
         if np.nan in data_Z or data_Z == []:
-            return WrapperResult(result=[0 for _ in range(11)],
+            return WrapperResult(result=DatabaseItem(),
                               noise=-1,
                               log=None,
                               message='Null data',
                               code=1)
         if len(data_Z) < 4:
-            return WrapperResult(result=[0 for _ in range(11)],
+            return WrapperResult(result=DatabaseItem(),
                               noise=-1,
                               log=None,
                               message='Not enough data',
                               code=2)
         
         if np.max(data_Z) < self.pix_lim:
-            return WrapperResult(result=[0 for _ in range(11)],
+            return WrapperResult(result=DatabaseItem(),
                               noise=-1,
                               log=None,
                               message='Not pixel bright enough',
@@ -114,7 +114,7 @@ class CentroidSimpleWrapper:
             current = find_gravity_centre(c_x, c_y, self.A, self.B, self.alpha, self.image, self.pix_prop)
 
             if current.center is None:
-                return WrapperResult(result=[c_x, c_y, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                return WrapperResult(result=DatabaseItem(cent_x=c_x, cent_y=c_y),
                               noise=-1,
                               log=log,
                               message='Could not find gravity centre',
@@ -148,7 +148,7 @@ class CentroidSimpleWrapper:
 
         # stop if did not finish iteration in time
         if iter > self.max_iter:
-            return WrapperResult(result=[current.center[0], current.center[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=DatabaseItem(current.center[0], current.center[0], iter=iter),
                               noise=-1,
                               log=log,
                               message='Maximum number of iterations reached.',
@@ -156,7 +156,7 @@ class CentroidSimpleWrapper:
 
         # stop is finished too quickly
         if iter < self.min_iter:
-            return WrapperResult(result=[current.center[0], current.center[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=DatabaseItem(current.center[0], current.center[0], iter=iter),
                               noise=-1,
                               log=log,
                               message='Not enough iterations.',
@@ -175,8 +175,6 @@ class CentroidSimpleWrapper:
                 current = find_gravity_centre(current.center[0], current.center[1], self.A, self.B, self.alpha, self.image, self.pix_prop, background)
                 cent_x, cent_y = current.center
 
-            # FIXME difference in R
-
             grav_simple = deepcopy(current)
             cent_x, cent_y = grav_simple.center
 
@@ -191,7 +189,7 @@ class CentroidSimpleWrapper:
         snr    = signal / noise
 
         if snr < self.snr_lim:
-            return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels), 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=DatabaseItem(cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels)),
                               noise=background,
                               log=log,
                               message='Low signal-to-noise value.',
@@ -205,7 +203,7 @@ class CentroidSimpleWrapper:
         maxpix_d = np.sqrt((maxpix_x - current.center[0])**2 + (maxpix_y - current.center[1])**2)
 
         if self.is_point and maxpix_d > np.min([self.A, self.B])/2 :
-            return WrapperResult(result=[current.center[0], current.center[0], 0, iter, 0, 0, 0, 0, 0, 0, 0],
+            return WrapperResult(result=DatabaseItem(current.center[0], current.center[0],iter=iter),
                               noise=-1,
                               log=log,
                               message='Centre not right.',
@@ -224,7 +222,7 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             log.append([current.center[0], current.center[1], 0, iter, np.sum(current.Z_pixels), mu, v, s, sk, ku])
 
-        return WrapperResult(result=[cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels), mu, v,s,sk,ku, background],
+        return WrapperResult(result=DatabaseItem(cent_x, cent_y, snr, iter, np.sum(grav_simple.Z_pixels), mu, v,s,sk,ku, background),
                               noise=background,
                               log=log,
                               message='OK',

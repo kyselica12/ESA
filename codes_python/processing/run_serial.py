@@ -61,10 +61,6 @@ class Serial:
             Xs = Xs[good]
             Ys = Ys[good]
 
-            # idx = np.argsort(Xs)
-            # Xs = Xs[idx]
-            # Ys = Ys[idx]
-
             while len(Xs) > 0:
                 step = self.perform_step(Xs[0], Ys[0])
                 
@@ -145,15 +141,12 @@ class Serial:
 
     def psf(self, image, extracted_point_clusters : List[PointCluster]):
 
-        self.database.psf = True
-        self.discarded.psf = True
-
         fit_function = self.args.fit_function
         number_of_iterations = self.args.bkg_iterations
         square_size = (self.args.width, self.args.height)
 
         background = sigma_clipper(image, iterations=number_of_iterations)
-        output_data = []
+
         for i, cluster in enumerate(extracted_point_clusters):
             self.stats.started += 1
 
@@ -164,25 +157,12 @@ class Serial:
             try:
                 params = cluster.fit_curve(function=fit_function, square_size=square_size)
             except Exception as e:
-                self.stats.notright += 1
-                continue  # suppress all Exceptions, incorrect fits are discarded
-
+                pass
             if cluster.correct_fit:
                 self.stats.ok += 1
-                output_data.append(cluster.output_data_tsv())
-                # TODO merge output with tsv database
-                self.database.add(cluster.output_data_tsv())
-        result = ""
-        result += '-' * 150 + '\n'
-        result += '{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}'.format("x", "y", "flux", "fwhm_x|fwhm_y",
-                                                                            "peak_SNR", "fit_rms", "skew_x|skew_y",
-                                                                            "kurt_x|kurt_y") + '\n'
-        result += '-' * 150 + '\n'
-        for i, data in enumerate(output_data):
-            result += '{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}{:<15}'.format(data[0], data[1], data[2], data[3],
-                                                                                data[4], data[5], data[6],
-                                                                                data[7]) + '\n'
-        print(result)
+                self.database.add(cluster.output_database_item())
+            else:
+                self.stats.notright += 1
 
     def perform_step(self, x,y):
 
@@ -210,7 +190,7 @@ class Serial:
         
 
         if current.code == 0:
-            return Step(code=0, x=current.result[0], y=current.result[1])
+            return Step(code=0, x=current.result.data[0], y=current.result.data[1])
         else:
             return Step(code=1, x=-1, y=-1)
          
