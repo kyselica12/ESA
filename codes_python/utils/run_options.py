@@ -134,7 +134,10 @@ def read_arguments():
                         type=float,
                         default=None,
                         help= "Accepted distance between stars while matching with .cat")
-
+    parser.add_argument('--centre-limit',
+                        type=float,
+                        default=None,
+                        help="Minimal accepted distance between two found stars")
 
     args = parser.parse_args()
 

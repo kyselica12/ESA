@@ -10,8 +10,6 @@ from utils.structures import *
 # ??? toto treba niekde vhodne umiestnit je to global povodne
 from utils.structures import Database
 
-CENTRE_LIMIT = 0
-
 
 class Serial:
 
@@ -198,7 +196,7 @@ class Serial:
         if current.code == 0:
             self.stats.ok += 1
 
-            ud_code = self.database.update(current.result, CENTRE_LIMIT)
+            ud_code = self.database.update(current.result, self.args.centre_limit)
 
             if ud_code == 1:
                 self.discarded.add(current.result)

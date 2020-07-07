@@ -220,6 +220,7 @@ class Configuration:
     parallel: int
     verbose: int
     match_limit: float
+    centre_limit: float
     json_config: str
     sobel_threshold: float
     fit_function: str

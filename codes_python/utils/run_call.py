@@ -1,6 +1,4 @@
-from utils.structures import Configuration
-
-def save_call(args: Configuration):
+def save_call(args):
     data = 'python3 ./main.py '
     data += '-F ' + str(args.input) + ' '
     data += '-A ' + str(args.width) + ' '
@@ -24,10 +22,11 @@ def save_call(args: Configuration):
     data += '-P ' + str(args.parallel) + ' '
     data += '-V ' + str(args.verbose) + ' '
     data += '-J' + str(args.json_config) + ' '
-    data += '--sobel-treshold' + str(args.sobel_threshold) + ' '
+    data += '--sobel-threshold' + str(args.sobel_threshold) + ' '
     data += '--bkg-iterations' + str(args.bkg_iterations) + ' '
     data += '--fit-function' + str(args.fit_function) + ' '
     data += '--psf' + str(args.psf) + ' '
+    data += '--centre-limit' + str(args.centre_limit) + '\n'
     data += '--match-limit' + str(args.match_limit) + '\n'
 
 
