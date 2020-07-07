@@ -1,4 +1,6 @@
-def save_call(args):
+from utils.structures import Configuration
+
+def save_call(args: Configuration):
     data = 'python3 ./main.py '
     data += '-F ' + str(args.input) + ' '
     data += '-A ' + str(args.width) + ' '
@@ -20,7 +22,16 @@ def save_call(args):
     data += '-H ' + str(args.fine_iter) + ' '
     data += '-K ' + str(args.method) + ' '
     data += '-P ' + str(args.parallel) + ' '
-    data += '-V ' + str(args.verbose) + '\n'
+    data += '-V ' + str(args.verbose) + ' '
+    data += '-J' + str(args.json_config) + ' '
+    data += '--sobel-treshold' + str(args.sobel_threshold) + ' '
+    data += '--bkg-iterations' + str(args.bkg_iterations) + ' '
+    data += '--fit-function' + str(args.fit_function) + ' '
+    data += '--psf' + str(args.psf) + ' '
+    data += '--match-limit' + str(args.match_limit) + '\n'
+
+
+
 
     with open(args.output+'.call', 'a') as f:
         print(data, file=f)
