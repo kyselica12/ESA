@@ -20,6 +20,7 @@
   "parallel": 0,
   "verbose": 0,
   "match_limit": 1,
+  "centre_limit": 0,
   "sobel_threshold": 20,
   "psf": false,
   "fit_function": "gauss",

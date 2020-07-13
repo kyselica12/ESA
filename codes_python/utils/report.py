@@ -104,7 +104,7 @@ def draw_picture(database, image, args: Configuration, model):
     if model is not None:
         for i, data in enumerate(model[:, 0:2]):
             x, y = data
-            rec = matplotlib.patches.Rectangle((x-0.5 - args.width/2, y-0.5 - args.height/2), args.width+1, args.height+1,
+            rec = matplotlib.patches.Rectangle((x -  args.width, y - args.height), 2*args.width, 2*args.height,
                                                edgecolor='white', facecolor="none", linewidth=0.5)
             t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
             rec.set_transform(t)
@@ -113,7 +113,7 @@ def draw_picture(database, image, args: Configuration, model):
     for i, data in enumerate(database.data[:, 0:2]):
         color = cmap(norm(col_data[i]))
         x, y = data
-        rec = matplotlib.patches.Rectangle((x-0.5 - args.width/2, y-0.5 - args.height/2), args.width+1, args.height+1,
+        rec = matplotlib.patches.Rectangle((x - args.width, y - args.height), 2*args.width, 2*args.height,
                                            edgecolor=color, facecolor="none", linewidth=0.5, linestyle='dotted')
         t = matplotlib.transforms.Affine2D().rotate_deg_around(x, y, args.angle) + ax.transData
         rec.set_transform(t)
@@ -177,6 +177,10 @@ def iter_hist(database):
 def model_hist(database, model, matched):
     fig = plt.figure()
     axs = fig.subplots(2, 2)
+
+    X, Y = np.array([]), np.array([])
+
+    #Fixme No matching starts cause error
 
     X = database.data[matched[:, 0], 0] - model[matched[:, 1], 0]
     X = X.astype(np.float32)
