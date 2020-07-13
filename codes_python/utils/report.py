@@ -241,6 +241,18 @@ def brightness_scat(database, model, matched):
 
     return fig
 
+def no_matched_text():
+
+    fig = plt.figure()
+    fig.set_size_inches(8.5, 8, forward=True)
+    ax = fig.subplots(1)
+
+
+    plt.text(0.5, 0.5, 'No stars matched', fontsize=25, horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+    ax.set_axis_off()
+
+
+    return fig
 
 def generate_report(database, image, args):
     if args.model is not None and args.model != "":
@@ -261,14 +273,22 @@ def generate_report(database, image, args):
 
     X, Y = None, None
     if model is not None:
-        X, Y, E, f_model = model_hist(database, model, matched)
-        f_error = error_scat(X, Y)
 
-        f_brightness = brightness_scat(database, model, matched)
+        if len(matched) > 0:
 
-        pp.savefig(f_model)
-        pp.savefig(f_error)
-        pp.savefig(f_brightness)
+            X, Y, E, f_model = model_hist(database, model, matched)
+            f_error = error_scat(X, Y)
+
+            f_brightness = brightness_scat(database, model, matched)
+
+            pp.savefig(f_model)
+            pp.savefig(f_error)
+            pp.savefig(f_brightness)
+
+        else:
+
+            f_no_matched = no_matched_text()
+            pp.savefig(f_no_matched)
 
     pp.close()
     return Report(matched=matched,
