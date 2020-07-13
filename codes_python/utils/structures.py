@@ -178,9 +178,11 @@ class Report:
 
     def write_tsv(self, filename, database):
 
-        matched_database = database.data[self.matched[:, 0]][:, [0, 1, 4]]
-        matched_model = self.model[self.matched[:, 1]]
-        data = np.concatenate((matched_database, matched_model), axis=1)
+        data = np.ones((0,6))
+        if len(self.matched) > 0:
+            matched_database = database.data[self.matched[:, 0]][:, [0, 1, 4]]
+            matched_model = self.model[self.matched[:, 1]]
+            data = np.concatenate((matched_database, matched_model), axis=1)
 
         col_names = ('cent.x', 'cent.y', 'sum', 'cat.x', 'cat.y', 'cat.sum')
         run_functions.write_tsv(filename+'_matched', col_names, data.astype(np.float32))
@@ -188,9 +190,11 @@ class Report:
 
     def write_json(self, filename, database):
 
-        matched_database = database.data[self.matched[:, 0]][:, [0, 1, 4]]
-        matched_model = self.model[self.matched[:, 1]]
-        data = np.concatenate((matched_database, matched_model), axis=1)
+        data = np.ones((0, 6))
+        if len(self.matched) > 0:
+            matched_database = database.data[self.matched[:, 0]][:, [0, 1, 4]]
+            matched_model = self.model[self.matched[:, 1]]
+            data = np.concatenate((matched_database, matched_model), axis=1)
 
         col_names = ('cent.x', 'cent.y', 'sum', 'cat.x', 'cat.y', 'cat.sum')
 
