@@ -31,6 +31,10 @@ class PointCluster(object):
         self.show_object_fit = False
         self.sobel = False
         self.noise_median = 0
+        self.x0_err = None
+        self.y0_err = None
+        self.total_err = None
+        self.is_line = False
 
     def __repr__(self):
         '''x y Flux  FWHM PeakSNR RMS Skew Kurtosis'''
@@ -41,12 +45,6 @@ class PointCluster(object):
         return [abs(self.x0), abs(self.y0), self.cumulated_flux, self.fwhm,\
                 self.psnr, self.rms, self.skew, self.skew_mid_y, self.kurtosis]
 
-    def output_data_tsv(self):
-        return [abs(self.x0), abs(self.y0), self.psnr, self.rms, \
-                self.cumulated_flux,self.fwhm_x, self.fwhm_y, \
-                self.skew_mid_x, self.skew_mid_y ,self.kurtosis_mid_x, self.noise_median,\
-                self.fwhm_x,self.fwhm_y, self.rms,self.skew_mid_x, self.skew_mid_y, self.kurtosis_mid_x, self.kurtosis_mid_y]
-
     def output_database_item(self):
 
         n_b = self.image.shape[0] * self.image.shape[1]
@@ -56,7 +54,7 @@ class PointCluster(object):
                 self.cumulated_flux,self.fwhm_x, self.fwhm_y, \
                 self.skew_mid_x, self.skew_mid_y ,self.kurtosis_mid_x, self.noise_median,\
                 self.fwhm_x,self.fwhm_y, self.rms,self.skew_mid_x, self.skew_mid_y, self.kurtosis_mid_x, self.kurtosis_mid_y,
-                bri_error=bri_error)
+                bri_error=bri_error, x0_err=self.x0_err, y0_err=self.y0_err, total_err=self.total_err, is_line=self.is_line)
 
     def add_header_data( self, header_data ):
         self.header_data = header_data
@@ -111,6 +109,7 @@ class PointCluster(object):
 
     def fill_to_square(self, square_width, square_height, center=None):
         max_value = 0
+        self.is_line = square_height != square_width
         self.low_y, self.low_x = self.image.shape
         for point in self.points:
             if self.image[point[1],point[0]] >= max_value:
@@ -167,6 +166,12 @@ class PointCluster(object):
             except NameError:
                 self.correct_fit = False
                 return
+
+            perr = np.sqrt(np.diag(pcov))
+            self.x0_err = perr[3] if perr[3] != np.inf else 0.0
+            self.y0_err = perr[4] if perr[4] != np.inf else 0.0
+            self.total_err = np.sqrt(self.x0_err**2 + self.y0_err**2) if self.self.y0_err else 0.0
+
             self.fwhm_x = 2*math.sqrt(2*math.log(2)) * abs(popt[3])
             self.fwhm_y = 2*math.sqrt(2*math.log(2)) * abs(popt[4])
             self.x0 = round(self.low_x + abs(popt[1]),2)

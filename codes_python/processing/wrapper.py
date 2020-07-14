@@ -222,11 +222,12 @@ class CentroidSimpleWrapper:
         if self.fine_iter > 0 and self.local_noise != 0:
             log.append([current.center[0], current.center[1], 0, iter, np.sum(current.Z_pixels), mu, v, s, sk, ku])
 
-        n_b = (self.A + 2*self.noise_dim) * (self.B + 2*self.noise_dim) - self.A*self.B
+        n_b = (2*self.A + 2*self.noise_dim) * (2*self.B + 2*self.noise_dim) - 2*self.A*2*self.B
         sum_brightness = np.sum(grav_simple.Z_pixels)
         bri_error = brightness_error(sum_brightness, background, len(grav_simple.Z_pixels), n_b)
+        is_line = self.A != self.B
 
-        return WrapperResult(result=DatabaseItem(cent_x, cent_y, snr, iter, sum_brightness, mu, v, s, sk, ku, background, bri_error=bri_error),
+        return WrapperResult(result=DatabaseItem(cent_x, cent_y, snr, iter, sum_brightness, mu, v, s, sk, ku, background, bri_error=bri_error, is_line=is_line),
                              noise=background,
                              log=log,
                              message='OK',

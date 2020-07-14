@@ -9,23 +9,27 @@ from utils import run_functions
 class DatabaseItem:
 
     def __init__(self, cent_x=0, cent_y=0, snr=0, iter=0, sum=0, mean=0, var=0, std=0, skew=0, kurt=0, bckg=0,
-                 fwhm_x=None, fwhm_y=None, rms=None, skew_x=None, skew_y=None,
-                 kurt_x=None, kurt_y=None, bri_error=None):
+                 fwhm_x=np.inf, fwhm_y=np.inf, rms=np.inf, skew_x=np.inf, skew_y=np.inf,
+                 kurt_x=np.inf, kurt_y=np.inf, bri_error=np.inf, x0_err=np.inf,
+                 y0_err=np.inf, total_err=np.inf, is_line=False):
         self.data = [cent_x, cent_y, snr, iter, sum, mean, var, std, skew, kurt, bckg,
                      fwhm_x, fwhm_y, rms, skew_x, skew_y,
-                     kurt_x, kurt_y, bri_error]
+                     kurt_x, kurt_y, x0_err, y0_err, total_err, bri_error, 1 if is_line else 0]
+
+
 
 
 class Database:
     col_names = ('cent.x', 'cent.y', 'snr', 'iter', 'sum', 'mean', 'var', 'std', 'skew', 'kurt', 'bckg',
-                'fwhm_x', 'fwhm_y', 'fit_rms', 'skew_x', 'skew_y', 'kurt_x', 'kurt_y', 'bri_error')
+                'fwhm_x', 'fwhm_y', 'fit_rms', 'skew_x', 'skew_y', 'kurt_x', 'kurt_y',
+                'x0_err', 'y0_err', 'total_err', 'bri_error', 'is_line') # 23 items
 
     def __init__(self, psf=False):
         self.data = np.zeros((0, len(self.col_names))).astype(object)
         self.psf_enabled = psf
 
     def psf_data_mode(self):
-        return not np.any(self.data[11:18] == None)
+        return not np.any(self.data[11:21] == np.inf)
 
     def nrows(self):
         return self.data.shape[0]
@@ -72,11 +76,15 @@ class Database:
 
         sorted_idx = np.argsort(self.data[:, 0])
 
-        ordered = self.data[sorted_idx][:,:11].astype(str)
+        ordered = self.data[sorted_idx].astype("U30") # [:,:11].
 
         if self.psf_data_mode():
-            ordered[:, 9] =  list(map(lambda x: f'{x[0]}|{x[1]}|s', self.data[:,16:18]))
+            ordered[:, 9] =  list(map(lambda x: f'{x[0]}|{x[1]}', ordered[:,16:18]))
 
+        # add flag s if the object is a line
+        ordered[:,9] = list(map(lambda x: f'{x[9][:28]}{"|s" if float(x[22]) == 1 else ""}', ordered))
+
+        ordered = ordered[:,:11]
 
         filename = filename
         col_names = self.col_names[:11]

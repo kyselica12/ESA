@@ -6,8 +6,6 @@ from processing.psf_segmentation.sobel import sobel_extract_clusters
 from processing.wrapper import CentroidSimpleWrapper
 from utils.structures import *
 
-
-# ??? toto treba niekde vhodne umiestnit je to global povodne
 from utils.structures import Database
 
 
@@ -139,28 +137,43 @@ class Serial:
 
     def psf(self, image, extracted_point_clusters : List[PointCluster]):
 
+        def fit_cluster(cluster, fit_function, square_size, background):
+            self.stats.started += 1
+            cluster.show_object_fit = False
+            cluster.show_object_fit_separate = False
+            cluster.add_background_data(background)
+            try:
+                params = cluster.fit_curve(function=fit_function, square_size=square_size)
+            except Exception as e:
+                pass
+
         fit_function = self.args.fit_function
         number_of_iterations = self.args.bkg_iterations
         square_size = (self.args.width, self.args.height)
 
         background = sigma_clipper(image, iterations=number_of_iterations)
 
-        for i, cluster in enumerate(extracted_point_clusters):
-            self.stats.started += 1
+        point_cluster = []
 
-            cluster.show_object_fit = False
-            cluster.show_object_fit_separate = False
-            # cluster.add_header_data(headers)
-            cluster.add_background_data(background)
-            try:
-                params = cluster.fit_curve(function=fit_function, square_size=square_size)
-            except Exception as e:
-                pass
+        for cluster in extracted_point_clusters:
+            fit_cluster(cluster, fit_function, square_size, background)
             if cluster.correct_fit:
-                self.stats.ok += 1
-                self.database.add(cluster.output_database_item())
+                current = cluster.output_database_item()
+                if self.is_point_object(current):
+                    self.stats.started -= 1 # TODO is this needed?
+                    point_cluster.append(current)
+                else:
+                    self.stats.ok += 1
+                    self.database.add(current)
             else:
                 self.stats.notright += 1
+
+
+
+
+
+    def is_point_object(self, current):
+        return False
 
     def perform_step(self, x,y):
 
@@ -183,6 +196,9 @@ class Serial:
                                         fine_iter=self.args.fine_iter,
                                         is_point=self.args.width == self.args.height)
         current = wrapper.execute()
+
+
+
 
         self.update_statistics(x,y,current)
         
