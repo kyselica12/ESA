@@ -16,14 +16,27 @@ from utils.structures import Report, Configuration
 def parse_cat(filename):
     points = []
 
-    with open(filename, 'r') as f:
-        lines = f.readlines()
+    encodings = ["utf8", "cp1250","utf16","ascii"]
 
-        for line in lines[4:]:
-            data = line.split()
-            if len(data) == 17:
-                points.append([float(data[11]) - 1, float(data[12]) - 1, float(data[13])])
-                # idx 11: x pos, idx 12: y pos, idx 13: flux
+    with open(filename, 'rb') as f:
+        byte_data = f.read()
+
+    for e in encodings:
+        try:
+            data = byte_data.decode(e)
+            lines = data.split('\n')
+
+            for line in lines[4:]:
+                data = line.split()
+                if len(data) == 17:
+                    points.append([float(data[11]) - 1, float(data[12]) - 1, float(data[13])])
+                    # idx 11: x pos, idx 12: y pos, idx 13: flux
+            break
+        except:
+            pass
+    else:
+        print("\nCannot decode .cat file\n")
+        return None
 
     return np.array(points)
 
@@ -34,53 +47,54 @@ def match_objects(database, params):
     else:
         model = np.genfromtxt(params.model, delimiter='\t')
 
-    found_points = database.data[:, 0:2].astype(np.float32)
-    model_points = model[:, 0:2]
-
-    # idx = np.argsort(found_points[:,0])
-    # found_points = found_points[idx]
-
-    dist = distance.cdist(found_points, model_points, 'euclidean')
-
-    min_idx = np.argmin(dist, axis=1)
-    min_value = np.min(dist, axis=1)
-
-    processed = set()
-    used = set()
     matched = []
     unmatched = []
-    i = 0
+    if model is not None:
+        found_points = database.data[:, 0:2].astype(np.float32)
+        model_points = model[:, 0:2]
 
-    while len(processed) != len(dist):
+        # idx = np.argsort(found_points[:,0])
+        # found_points = found_points[idx]
 
-        if i in processed:
-            i += 1
-            continue
+        dist = distance.cdist(found_points, model_points, 'euclidean')
 
-        if min_value[i] > params.match_limit:
-            unmatched.append([i, min_value[i]])
-            processed.add(i)
-            i += 1
-            continue
+        min_idx = np.argmin(dist, axis=1)
+        min_value = np.min(dist, axis=1)
 
-        model_min_idx = np.argmin(min_value)
+        processed = set()
+        used = set()
+        i = 0
 
-        if min_idx[model_min_idx] in used:
-            # is used
-            min_value[model_min_idx] = np.min(dist[model_min_idx])
-            min_idx[model_min_idx] = np.argmin(dist[model_min_idx])
-        else:
-            # is free
-            # set a match
+        while len(processed) != len(dist):
 
-            matched.append([model_min_idx, min_idx[model_min_idx]])
+            if i in processed:
+                i += 1
+                continue
 
-            # mark as used
-            used.add(min_idx[model_min_idx])
-            dist[:, min_idx[model_min_idx]] = 1000
+            if min_value[i] > params.match_limit:
+                unmatched.append([i, min_value[i]])
+                processed.add(i)
+                i += 1
+                continue
 
-            processed.add(model_min_idx)
-            min_value[model_min_idx] = 1000
+            model_min_idx = np.argmin(min_value)
+
+            if min_idx[model_min_idx] in used:
+                # is used
+                min_value[model_min_idx] = np.min(dist[model_min_idx])
+                min_idx[model_min_idx] = np.argmin(dist[model_min_idx])
+            else:
+                # is free
+                # set a match
+
+                matched.append([model_min_idx, min_idx[model_min_idx]])
+
+                # mark as used
+                used.add(min_idx[model_min_idx])
+                dist[:, min_idx[model_min_idx]] = 1000
+
+                processed.add(model_min_idx)
+                min_value[model_min_idx] = 1000
 
     return model, np.array(matched), np.array(unmatched)
 
@@ -119,7 +133,8 @@ def draw_picture(database, image, args: Configuration, model):
         rec.set_transform(t)
         ax.add_patch(rec)
 
-    ax.imshow(image, cmap='gray', origin='lower', vmin=0, vmax=10)
+    image_mean = np.mean(image)
+    ax.imshow(image, cmap='gray', origin='lower', vmin=image_mean * 0.5, vmax=image_mean * 5)
 
     return fig
 
@@ -179,8 +194,6 @@ def model_hist(database, model, matched):
     axs = fig.subplots(2, 2)
 
     X, Y = np.array([]), np.array([])
-
-    #Fixme No matching starts cause error
 
     X = database.data[matched[:, 0], 0] - model[matched[:, 1], 0]
     X = X.astype(np.float32)
