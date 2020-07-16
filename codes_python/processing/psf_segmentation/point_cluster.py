@@ -35,6 +35,7 @@ class PointCluster(object):
         self.y0_err = None
         self.total_err = None
         self.is_line = False
+        self.cumulated_flux = None
 
     def __repr__(self):
         '''x y Flux  FWHM PeakSNR RMS Skew Kurtosis'''
@@ -112,7 +113,9 @@ class PointCluster(object):
         self.is_line = square_height != square_width
         self.low_y, self.low_x = self.image.shape
         for point in self.points:
-            if self.image[point[1],point[0]] >= max_value:
+            point1 = point[1]
+            point2 = point[0]
+            if self.image[point1, point2] >= max_value:
                 self.peak_point = point
                 max_value = self.image[point[1],point[0]]
             if point[1] <= self.low_y:
@@ -170,7 +173,7 @@ class PointCluster(object):
             perr = np.sqrt(np.diag(pcov))
             self.x0_err = perr[3] if perr[3] != np.inf else 0.0
             self.y0_err = perr[4] if perr[4] != np.inf else 0.0
-            self.total_err = np.sqrt(self.x0_err**2 + self.y0_err**2) if self.self.y0_err else 0.0
+            self.total_err = np.sqrt(self.x0_err**2 + self.y0_err**2) if self.y0_err else 0.0
 
             self.fwhm_x = 2*math.sqrt(2*math.log(2)) * abs(popt[3])
             self.fwhm_y = 2*math.sqrt(2*math.log(2)) * abs(popt[4])

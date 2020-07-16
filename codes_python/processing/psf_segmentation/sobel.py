@@ -20,13 +20,7 @@ def sobel_extract_clusters(image, threshold=20):
 
     joined_points = join_neigbor_points_mask(mask)
 
-    clusters = []
-    for point_mesh in joined_points:
-        cluster = PointCluster(point_mesh, image)
-        cluster.sobel = True
-        clusters.append(cluster)
-
-    return clusters
+    return joined_points
 
 def join_neigbor_points_mask(mask):
     joined_points = list()
@@ -35,26 +29,26 @@ def join_neigbor_points_mask(mask):
             if value == 1:
                 mask[y][x] = 0
                 cluster = list()
-                cluster.append((x,y))
-                stack = [(x,y)]
+                cluster.append([x,y])
+                stack = [[x,y]]
                 while len(stack) > 0:
                     x_p,y_p = stack.pop()
                     if x_p-1 >= 0 and mask[y_p][x_p-1] == 1:
                         mask[y_p][x_p-1] = 0
-                        stack.append((x_p-1,y_p))
-                        cluster.append((x_p-1,y_p))
+                        stack.append([x_p-1,y_p])
+                        cluster.append([x_p-1,y_p])
                     if x_p+1 < mask.shape[1] and mask[y_p][x_p+1] == 1:
                         mask[y_p][x_p+1] = 0
-                        stack.append((x_p+1,y_p))
-                        cluster.append((x_p+1,y_p))
+                        stack.append([x_p+1,y_p])
+                        cluster.append([x_p+1,y_p])
                     if y_p-1 >= 0 and mask[y_p-1][x_p] == 1:
                         mask[y_p-1][x_p] = 0
-                        stack.append((x_p,y_p-1))
-                        cluster.append((x_p,y_p-1))
+                        stack.append([x_p,y_p-1])
+                        cluster.append([x_p,y_p-1])
                     if y_p+1 < mask.shape[0] and mask[y_p+1][x_p] == 1:
                         mask[y_p+1][x_p] = 0
-                        stack.append((x_p,y_p+1))
-                        cluster.append((x_p,y_p+1))
+                        stack.append([x_p,y_p+1])
+                        cluster.append([x_p,y_p+1])
                 joined_points.append(cluster)
     return joined_points
 

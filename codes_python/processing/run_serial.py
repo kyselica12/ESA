@@ -3,10 +3,13 @@ import scipy.cluster.hierarchy as hcluster
 from processing.psf_segmentation.background_extraction_cli import sigma_clipper
 from processing.psf_segmentation.point_cluster import PointCluster
 from processing.psf_segmentation.sobel import sobel_extract_clusters
+from processing.getPixels import get_pixels
 from processing.wrapper import CentroidSimpleWrapper
 from utils.structures import *
 
 from utils.structures import Database
+
+import os
 
 
 class Serial:
@@ -15,6 +18,7 @@ class Serial:
         self.args: Configuration = args
         self.log_file = log_file
         self.image = image
+        self.psf_bckg = None
 
     def log(self,msg):
 
@@ -89,88 +93,83 @@ class Serial:
 
             clusters = hcluster.fclusterdata(pixels, thresh, criterion='distance')
 
-            extracted_point_clusters = []
 
             for i in range(1, np.max(clusters)+1):
                 YX = pixels[clusters == i]
-                point_mesh = YX[:,::-1].astype(int)
+                X = YX[:, 1]
+                Y = YX[:, 0]
 
-                cluster = PointCluster(point_mesh, self.image)
-                extracted_point_clusters.append(cluster)
+                Z = self.image[Y, X]
 
-            image = self.image[x_start: x_end, y_start: y_end]
+                sumG = np.sum(Z)
+                sumGx = np.sum(Z * (X - 0.5))
+                sumGy = np.sum(Z * (Y - 0.5))
 
-            if self.args.psf:
-                self.psf(image, extracted_point_clusters)
-            else:
-                self.process_clusters(extracted_point_clusters)
+                self.perform_step(sumGx / sumG, sumGy / sumG)
 
         elif self.args.method == "sobel":
             image = self.image[x_start: x_end, y_start: y_end]
             sobel_threshold = self.args.sobel_threshold
 
-            extracted_point_clusters = sobel_extract_clusters(image, threshold=sobel_threshold)
+            joined_points = sobel_extract_clusters(image, threshold=sobel_threshold)
 
-            if self.args.psf:
-                self.psf(image, extracted_point_clusters)
-            else:
-                self.process_clusters(extracted_point_clusters)
+            for XY in joined_points:
+
+                XY = np.array(XY)
+                X = XY[:, 0]
+                Y = XY[:, 1]
+
+                Z = self.image[Y, X]
+
+                sumG = np.sum(Z)
+                sumGx = np.sum(Z * (X - 0.5))
+                sumGy = np.sum(Z * (Y - 0.5))
+
+                self.perform_step(sumGx / sumG, sumGy / sumG)
 
 
         return SerialResult(database=self.database, discarded=self.discarded, stats=self.stats)
 
-    def process_clusters(self, extracted_point_clusters):
-        for i, cluster in enumerate(extracted_point_clusters):
-            points = cluster.points
+    def psf(self, current):
+        cent_x = current.result.data[0]
+        cent_y = current.result.data[1]
 
-            XY = np.array(points)
-            X = XY[:, 0]
-            Y = XY[:, 1]
+        X, Y, Z = get_pixels(cent_x=cent_x, cent_y=cent_y,
+                             A=self.args.width, B=self.args.height,
+                             alpha=self.args.angle, image=self.image)
+        X = X.reshape(-1,1)
+        Y = Y.reshape(-1,1)
+        points = np.concatenate((X, Y),axis=1).astype(int)
+        cluster = PointCluster(points, self.image)
 
-            Z = self.image[Y, X]
-
-            sumG = np.sum(Z)
-            sumGx = np.sum(Z * (X - 0.5))
-            sumGy = np.sum(Z * (Y - 0.5))
-
-            self.perform_step(sumGx / sumG, sumGy / sumG)
-
-    def psf(self, image, extracted_point_clusters : List[PointCluster]):
-
-        def fit_cluster(cluster, fit_function, square_size, background):
-            self.stats.started += 1
-            cluster.show_object_fit = False
-            cluster.show_object_fit_separate = False
-            cluster.add_background_data(background)
-            try:
-                params = cluster.fit_curve(function=fit_function, square_size=square_size)
-            except Exception as e:
-                pass
+        if self.psf_bckg is None:
+            number_of_iterations = self.args.bkg_iterations
+            self.psf_bckg = sigma_clipper(self.image, iterations=number_of_iterations)
 
         fit_function = self.args.fit_function
-        number_of_iterations = self.args.bkg_iterations
-        square_size = (self.args.width, self.args.height)
+        square_size = (self.args.width , self.args.height )
 
-        background = sigma_clipper(image, iterations=number_of_iterations)
+        cluster.show_object_fit = False
+        cluster.show_object_fit_separate = False
+        cluster.add_background_data(self.psf_bckg)
+        try:
+            cluster.fit_curve(function=fit_function, square_size=square_size)
+        except Exception as e:
+            pass
 
-        point_cluster = []
-
-        for cluster in extracted_point_clusters:
-            fit_cluster(cluster, fit_function, square_size, background)
-            if cluster.correct_fit:
-                current = cluster.output_database_item()
-                if self.is_point_object(current):
-                    self.stats.started -= 1 # TODO is this needed?
-                    point_cluster.append(current)
-                else:
-                    self.stats.ok += 1
-                    self.database.add(current)
-            else:
-                self.stats.notright += 1
-
-
-
-
+        if cluster.correct_fit:
+            return WrapperResult(result=cluster.output_database_item(),
+                                 noise=cluster.noise_median,
+                                 log=current.log,
+                                 message='OK',
+                                 code=0)
+        else:
+            iter = current.result.data[3]
+            return WrapperResult(result=DatabaseItem(cent_x, cent_y, iter=iter),
+                                 noise=-1,
+                                 log=current.log,
+                                 message='Centre not right.',
+                                 code=8)
 
     def is_point_object(self, current):
         return False
@@ -196,6 +195,17 @@ class Serial:
                                         fine_iter=self.args.fine_iter,
                                         is_point=self.args.width == self.args.height)
         current = wrapper.execute()
+
+        if self.is_point_object(current):
+            wrapper.init_x = current.result.data[0]
+            wrapper.init_y = current.result.data[1]
+            wrapper.A = self.args.height
+            wrapper.B = self.args.height
+            wrapper.alpha = 0
+            current = wrapper.execute()
+
+        if self.args.psf and current.code == 0:
+            current = self.psf(current)
 
 
 
