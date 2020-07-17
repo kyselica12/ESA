@@ -196,7 +196,7 @@ def model_hist(database, model, matched):
     X, Y = np.array([]), np.array([])
 
     X = database.data[matched[:, 0], 0] - model[matched[:, 1], 0]
-    X = X.astype(np.float32)
+    X = X.astype(np.float32).reshape(-1)
     create_hist(X, title=f'X axis differences {np.mean(X):.4f}', ax=axs[0][0], xlabel='X difference')
 
     Y = database.data[matched[:, 0], 1] - model[matched[:, 1], 1].astype(np.float32)

@@ -113,9 +113,7 @@ class PointCluster(object):
         self.is_line = square_height != square_width
         self.low_y, self.low_x = self.image.shape
         for point in self.points:
-            point1 = point[1]
-            point2 = point[0]
-            if self.image[point1, point2] >= max_value:
+            if self.image[point[1], point[0]] >= max_value:
                 self.peak_point = point
                 max_value = self.image[point[1],point[0]]
             if point[1] <= self.low_y:
@@ -142,6 +140,8 @@ class PointCluster(object):
 
     def fit_curve(self, function='gauss', square_size=(11,11)):
         try:
+            if not isinstance(square_size[0], int):
+                square_size = (int(square_size[0]), int(square_size[1]))
             self.squared_data = self.fill_to_square(*square_size)
         except IndexError:
             raise IndexError("Border object, ignore")
@@ -176,9 +176,9 @@ class PointCluster(object):
             self.total_err = np.sqrt(self.x0_err**2 + self.y0_err**2) if self.y0_err else 0.0
 
             self.fwhm_x = 2*math.sqrt(2*math.log(2)) * abs(popt[3])
-            self.fwhm_y = 2*math.sqrt(2*math.log(2)) * abs(popt[4])
-            self.x0 = round(self.low_x + abs(popt[1]),2)
-            self.y0 = round(self.low_y + abs(popt[2]),2)
+            self.fwhm_y  = 2*math.sqrt(2*math.log(2)) * abs(popt[4])
+            self.x0 = round(self.low_x + abs(popt[1]),2) #Fixme
+            self.y0 = round(self.low_y + abs(popt[2]),2) #Fixme with -1 it is much better
             if self.x0 >= self.image.shape[1] or \
                 self.y0 >= self.image.shape[0] or \
                 math.isnan(self.fwhm_x) or \
