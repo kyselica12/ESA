@@ -22,12 +22,12 @@ def save_call(args):
     data += '-P ' + str(args.parallel) + ' '
     data += '-V ' + str(args.verbose) + ' '
     data += '-J' + str(args.json_config) + ' '
-    data += '--sobel-threshold' + str(args.sobel_threshold) + ' '
-    data += '--bkg-iterations' + str(args.bkg_iterations) + ' '
-    data += '--fit-function' + str(args.fit_function) + ' '
-    data += '--psf' + str(args.psf) + ' '
-    data += '--centre-limit' + str(args.centre_limit) + '\n'
-    data += '--match-limit' + str(args.match_limit) + '\n'
+    data += '--sobel-threshold ' + str(args.sobel_threshold) + ' '
+    data += '--bkg-iterations ' + str(args.bkg_iterations) + ' '
+    data += '--fit-function ' + str(args.fit_function) + ' '
+    data += '--psf ' + str(args.psf) + ' '
+    data += '--centre-limit ' + str(args.centre_limit) + '\n'
+    data += '--match-limit ' + str(args.match_limit) + '\n'
 
 
 
