@@ -147,7 +147,7 @@ class Serial:
             self.psf_bckg = sigma_clipper(self.image, iterations=number_of_iterations)
 
         fit_function = self.args.fit_function
-        square_size = (self.args.width , self.args.height )
+        square_size = (self.args.width, self.args.height)
 
         cluster.show_object_fit = False
         cluster.show_object_fit_separate = False

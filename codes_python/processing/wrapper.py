@@ -53,7 +53,7 @@ class CentroidSimpleWrapper:
 
         # append rest of the elements of S
         if i < len(s) - 1:
-            np.concatenate([n, s[i:]], axis=0)
+            n = np.concatenate([n, s[i:]], axis=0)
 
         return n
             
@@ -165,7 +165,6 @@ class CentroidSimpleWrapper:
         grav_simple = deepcopy(current)
         cent_x, cent_y = grav_simple.center
 
-
         background = self.find_background(cent_x, cent_y)
 
         # fine centroiding with local noise removed
@@ -180,7 +179,7 @@ class CentroidSimpleWrapper:
 
         # remove local background from local pixels (for calculation of statistics, IMAGE is not changed)
         grav_simple.Z_pixels = remove_negative(grav_simple.Z_pixels - background, val=10)
-        
+
         # Definition for 1 pixel SNR (peak SNR) from Raab (2001) - Detecting and measuring faint point sources with a CCD, eq. 5
         # X_pixels, Y_pixels, Z_pixels = grav_simple[1:]
     
