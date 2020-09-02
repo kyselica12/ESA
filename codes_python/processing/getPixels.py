@@ -12,7 +12,7 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
         BL = vecR - vecA - vecB
         BR = vecR + vecA - vecB
         # define four bounding lines
-        if abs(np.tan(alpha)) > 0:
+        if 89 < abs(alpha*180 / np.pi) % 90 > 1 :
             tgA = np.tan(alpha)
             tgA2 = np.tan(alpha + np.pi / 2)
             L1 = np.array([tgA, -1, TR[1] - tgA * TR[0]])
@@ -30,7 +30,7 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
         return (c - b) / a
 
     def compute_x_on_line(BL, L1, L2, L3, L4, TR, line, alpha):
-        if abs(np.tan(alpha)) > 0:
+        if 89 < abs(alpha*180 / np.pi) % 90 > 1:
             x1 = isect(L1[0], L1[2], line)
             x2 = isect(L2[0], L2[2], line)
             x3 = isect(L3[0], L3[2], line)
@@ -140,17 +140,28 @@ def get_pixels(cent_x, cent_y, A, B, alpha, image):
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
 
-    image = np.array([ [ j*10+i+1  for j in range(10) ] for i in range(10)])
+    image = np.zeros((300,300))
 
-    cent_x = 9
-    cent_y = 4
-    A, B = 2, 2
-    alpha = 0
+    cent_x = 150
+    cent_y = 150
+    A, B = 30, 6
+    alpha = np.deg2rad(180)
 
-    r = get_pixels(cent_x, cent_y, A, B, alpha, image)
-    print(r[0])
-    print(r[1])
-    print(r[2])
-    for i in r:
-        print(i.shape)
+    X,Y, Z = get_pixels(cent_x, cent_y, A, B, alpha, image)
+
+
+
+    print(X.shape)
+
+    image[X.astype(int), Y.astype(int)] = 255
+
+    plt.imshow(image)
+
+    plt.show()
+
+
+
+
+
