@@ -26,8 +26,9 @@ def save_call(args):
     data += '--bkg-iterations ' + str(args.bkg_iterations) + ' '
     data += '--fit-function ' + str(args.fit_function) + ' '
     data += '--psf ' + str(args.psf) + ' '
-    data += '--centre-limit ' + str(args.centre_limit) + '\n'
-    data += '--match-limit ' + str(args.match_limit) + '\n'
+    data += '--centre-limit ' + str(args.centre_limit) + ' '
+    data += '--match-limit ' + str(args.match_limit) + ' '
+    data += '--pixscale ' + str(args.pixscale) + ' '
 
 
 

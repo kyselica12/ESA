@@ -1,6 +1,7 @@
 import argparse
 from utils.structures import Configuration
 import os
+import sys
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -148,8 +149,12 @@ def read_arguments():
                         type=float,
                         default=None,
                         help="Minimal accepted distance between two found stars")
+    parser.add_argument('--pixscale',
+                        type=float,
+                        default=None,
+                        help="Pixel scale")
 
-    args = parser.parse_args()
+    args : Configuration = parser.parse_args()
 
     if args.json_config is None:
         path = os.path.dirname(os.path.abspath(__file__))
@@ -166,6 +171,45 @@ def read_arguments():
         if args.__dict__[name] is not None:
             cfg.__dict__[name] = args.__dict__[name]
 
+    if args.width is None and args.angle is None:
+        try:
+            width, angle = read_from_fits_header(cfg)
+            cfg.width = width
+            cfg.angle = angle
+        except Exception as e:
+            pass
+
+    fields = ["width", "height", "angle", "pixscale"]
+    terminate = False
+    for name in fields:
+        if cfg.__dict__[name] is None:
+            print(f'Missing input parameter {name}')
+            terminate = True
+
+    if terminate:
+        sys.exit(1)
+
     return cfg
+
+def read_from_fits_header(cfg : Configuration):
+    from astropy.io import fits
+    import numpy as np
+
+    filename = cfg.input
+
+    hdul = fits.open(filename)
+    hdr = hdul[0].header
+
+    exptime = float(hdr['EXPTIME'])
+    cfg.pixscale = float(hdr['PIXSCALE'] if hdr['PIXSCALE'] is not None else cfg.pixscale)
+    ratrack = float(hdr['RATRACK'])
+    detrack = float(hdr['DECTRACK'])
+
+    width = np.sqrt(ratrack**2 + detrack**2) / (cfg.pixscale**2) + cfg.height
+    angle = np.degrees(np.pi - np.arctan2(ratrack, detrack))
+
+    return width, angle
+
+
 
 
