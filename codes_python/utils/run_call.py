@@ -21,7 +21,7 @@ def save_call(args):
     data += '-K ' + str(args.method) + ' '
     data += '-P ' + str(args.parallel) + ' '
     data += '-V ' + str(args.verbose) + ' '
-    data += '-J' + str(args.json_config) + ' '
+    data += '-J ' + str(args.json_config) + ' '
     data += '--sobel-threshold ' + str(args.sobel_threshold) + ' '
     data += '--bkg-iterations ' + str(args.bkg_iterations) + ' '
     data += '--fit-function ' + str(args.fit_function) + ' '

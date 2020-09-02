@@ -134,7 +134,12 @@ def draw_picture(database, image, args: Configuration, model):
         ax.add_patch(rec)
 
     image_mean = np.mean(image)
-    ax.imshow(image, cmap='gray', origin='lower', vmin=image_mean * 0.5, vmax=image_mean * 5)
+    image_min = np.min(image)
+    image_max = np.max(image)
+    vmin = image_mean - (image_mean - image_min) * 0.5
+    vmax = image_mean + (image_max - image_mean) * 0.1
+    
+    ax.imshow(image, cmap='gray', origin='lower', vmin=vmin, vmax=vmax)
 
     return fig
 
