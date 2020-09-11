@@ -239,6 +239,7 @@ class Configuration:
     bkg_iterations: int
     psf: bool
     pixscale: float
+    field_rotation_angle: float
 
     def to_json(self):
         return json.dumps(self.__dict__)

@@ -171,11 +171,11 @@ def read_arguments():
         if args.__dict__[name] is not None:
             cfg.__dict__[name] = args.__dict__[name]
 
-    if args.width is None and args.angle is None:
+    if args.width is None or args.angle is None:
         try:
             width, angle = read_from_fits_header(cfg)
-            cfg.width = width
-            cfg.angle = angle
+            cfg.width = args.width if args.width else width
+            cfg.angle = args.angle if args.angle else angle
         except Exception as e:
             pass
 
@@ -204,9 +204,26 @@ def read_from_fits_header(cfg : Configuration):
     cfg.pixscale = float(hdr['PIXSCALE'] if hdr['PIXSCALE'] is not None else cfg.pixscale)
     ratrack = float(hdr['RATRACK'])
     detrack = float(hdr['DECTRACK'])
+    dec = float(hdr['DEC_PNT'])
 
-    width = np.sqrt(ratrack**2 + detrack**2) / (cfg.pixscale**2) + cfg.height
-    angle = np.degrees(np.pi - np.arctan2(ratrack, detrack))
+    width = 1/2 * (
+            np.sqrt( (ratrack*np.cos(dec))**2 + detrack**2) / cfg.pixscale * exptime
+            ) + cfg.height
+
+    # angle = np.degrees(np.pi - np.arctan2(ratrack, detrack))
+    angle = np.abs((ratrack * np.cos(dec)) / detrack)
+    angle = np.arctan(angle)
+
+    if ratrack > 0 and detrack > 0:
+        angle = angle - ((-cfg.field_rotation_angle) * (np.pi / 180))
+    elif ratrack < 0 and detrack > 0:
+        angle = np.pi - angle + ((-cfg.field_rotation_angle) * (np.pi / 180))
+    elif ratrack < 0 and detrack < 0:
+        angle = np.pi + angle - ((-cfg.field_rotation_angle) * (np.pi / 180))
+    elif ratrack > 0 and detrack < 0:
+        angle = 2 * np.pi - angle + ((-cfg.field_rotation_angle) * (np.pi / 180))
+
+    angle = (angle - (np.pi / 2)) * (180 / np.pi)
 
     return width, angle
 

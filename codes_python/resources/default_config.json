@@ -26,5 +26,6 @@
   "fit_function": "gauss",
   "bkg_iterations": 2,
   "json_config": "resources/default_config.json",
-  "pixscale": 1.67
+  "pixscale": 1.67,
+  "field_rotation_angle": -2.5
 }

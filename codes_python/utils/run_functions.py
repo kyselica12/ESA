@@ -68,7 +68,7 @@ def normalize(data):
 
 
 def brightness_error(Is, Ns, n_pix, n_b):
-    return Is + n_pix * (1 + (n_pix / n_b)) * (Ns + 8 ** 2 + 2.2 ** 2 * 0.289)
+    return np.sqrt(Is + n_pix * (1 + (n_pix / n_b)) * Ns)
 
 
 def write_tsv(filename, col_names, data):
